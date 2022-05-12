@@ -1,7 +1,7 @@
 <template>
 <div class = "controller">
 	<div class ="row">
-		<div id = "bTitle">
+		<div>
 			<table class="table table-striped" style="text-align:left; width:840px">
 				<thead>
 					<tr>
@@ -46,20 +46,19 @@
 import { mapState, mapActions } from "vuex"
 export default {
 	created() {
-		this.$store.dispatch('article')
+		this.$store.dispatch('article', {bId: this.$route.params.bId})
+		console.log('param 확인' + this.$route.params.bId)
 	},
 	data () {
 		return {
-			bId: {
-			bId: this.$route.params.bId,
-			},
+			bId: {bId: this.$route.params.bId,},
 			bTitle : this.$store.state.article.bTitle,
 			bContent : this.$store.state.article.bContent,
 			bWriter : this.$store.state.article.bWriter,
 			bDatetime : this.$store.state.article.bDatetime,
 			bBrdhit : this.$store.state.article.bBrdhit,
 
-			amount:1,
+		
 		}
 	},
 	computed: {

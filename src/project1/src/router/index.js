@@ -49,9 +49,9 @@ const routes = [
   },
   {path: '/article/:bId',
    name:'article',
-   component: article}
+   component:article
+  }
 ]
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

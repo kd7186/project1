@@ -30,8 +30,8 @@ export default new Vuex.Store({
       state.boardlist = data
     },
     READ_ARTICLE(state,data) {
+      state.article.bId = data.bId
       state.article = data
-      console.log(state.article)
     },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
@@ -118,6 +118,7 @@ export default new Vuex.Store({
     })
   },
   article({commit},payload) {
+    console.log(payload)
     return new Promise((resolve,reject) => {
       axios.get('http://localhost:9000/api/article', payload)
         .then(Response => {

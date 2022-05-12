@@ -39,6 +39,12 @@ export default {
 	},
 	computed: {
 		...mapState(["boardlist"])
-	}
+	},
+	methods: {
+    article: function (bId) {
+      this.$router.push({name: '/article', params: {bId: bId}})
+   		}	
+	},
+	props: ['bId']
 }
 </script>
