@@ -17,7 +17,7 @@
 		      </if>
 			  ORDER BY bGroup DESC,bOrder ASC, bDepth ASC, bId DESC
 	   </select>
-	  <select id="article" parameterType="Board" resultType="Board">
+	  <select id="article" parameterType="int" resultType="Board">
 	  	  SELECT         	b_id as bId,
 	  	  						 b_title as bTitle,
 				                 b_content as bContent,

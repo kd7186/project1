@@ -40,12 +40,12 @@ const routes = [
   {
     path: '/board',
     name: 'board',
-    component:board,
+    component:board
   },
   {
     path: '/write',
     name: 'write',
-    component:write
+    component:write,
   },
   {path: '/article/:bId',
    name:'article',

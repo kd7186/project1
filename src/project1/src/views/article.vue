@@ -15,7 +15,7 @@
 						<td colspan="2">{{article.bWriter}}</td>
 					</tr>
 					<tr>
-						<td style="width: 10%; height: 20px"><strong>작성일</strong></td>
+						<td style="width: 10%; height: 20px"><strong>날짜</strong></td>
 						<td colspan="2">{{article.bDatetime}}</td>
 					</tr>
 					<tr>
@@ -46,7 +46,7 @@
 import { mapState, mapActions } from "vuex"
 export default {
 	created() {
-		this.$store.dispatch('article', {bId: this.$route.params.bId})
+		this.$store.dispatch('article', {params: {bId: this.$route.params.bId}})
 		console.log('param 확인' + this.$route.params.bId)
 	},
 	data () {

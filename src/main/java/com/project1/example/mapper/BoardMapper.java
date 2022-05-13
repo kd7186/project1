@@ -10,7 +10,7 @@ import com.project1.example.domain.Search;
 public interface BoardMapper {
 	public List<Board> selectBoardList(Pagination pagination);
 	
-	public Board article(Board board );
+	public Board article(int bId);
 	
 	public void writeAction(Board board);
 	

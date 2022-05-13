@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Route from '../router/index'
 import axios from 'axios'
+import router from '../router/index'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -26,12 +27,16 @@ export default new Vuex.Store({
     READ_USER_LIST(state,data) {
       state.UserList = data
     },
+    WRITE(state,data) {
+      state.Userinfo = data
+    },
     READ_BOARD_LIST(state,data) {
       state.boardlist = data
     },
     READ_ARTICLE(state,data) {
       state.article.bId = data.bId
       state.article = data
+      console.log(state.article)
     },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
@@ -118,6 +123,8 @@ export default new Vuex.Store({
     })
   },
   article({commit},payload) {
+    //var obj= {bId: router.currentRoute.params.bId}
+    //payload = obj
     console.log(payload)
     return new Promise((resolve,reject) => {
       axios.get('http://localhost:9000/api/article', payload)

@@ -89,11 +89,17 @@ public class BoardController {
 	}
 	
 	@GetMapping("/article")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<?> article(Model model, Authentication authentication,Board board) {
-		Board article = boardservice.article(board);
+	public ResponseEntity<?> article(Board board, Model model) {
+		Board article = boardservice.article(board.getbId());
 		model.addAttribute("article", article);
+		boardservice.countView(board.getbId());
 		return new ResponseEntity<>(article, HttpStatus.OK);
+	}
+	
+	@GetMapping("/write")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<?> write(Model model){
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
 

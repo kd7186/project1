@@ -17,8 +17,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board article(Board board) {
-		return boardmapper.article(board);
+	public Board article(int bId) {
+		return boardmapper.article(bId);
 	}
 	
 	@Override

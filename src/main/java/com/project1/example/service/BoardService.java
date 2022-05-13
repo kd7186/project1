@@ -12,7 +12,7 @@ public interface BoardService {
 	
 	public List<Board> selectBoardList(Pagination pagination);
 	
-	public Board article(Board board);
+	public Board article(int bId);
 	
 	public void writeAction(Board board);
 	
