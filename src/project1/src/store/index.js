@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Route from '../router/index'
 import axios from 'axios'
 import router from '../router/index'
+import { fileURLToPath } from 'url'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -135,6 +136,34 @@ export default new Vuex.Store({
         .catch(Error => {
           console.log('error')
           reject(Error)
+        })
+    })
+  },
+  writeaction({commit},payload) {
+    let formData = new FormData()
+    formData.append('file', payload.fileinput)
+    formData.append('bId', payload.bId)
+    formData.append('bContent', payload.bContent)
+    formData.append('bWriter', payload.bWriter)
+    
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:9000/api/writeaction',
+        formData,
+        {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(Response => {
+          console.log(Response.data)
+          commit('READ_BOARD_LIST', Response.data)
+          alert('게시글이 등록되었습니다.')
+        })
+        .catch(Error => {
+          console.log('error')
+          reject(Error)
+          alert('게시글 등록 실패')
+          .then(() => router.push({name:'ProductRegistration'}))
         })
     })
   },

@@ -1,5 +1,6 @@
 package com.project1.example.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +26,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project1.example.domain.Board;
 import com.project1.example.domain.Pagination;
@@ -101,5 +108,39 @@ public class BoardController {
 	public ResponseEntity<?> write(Model model){
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/writeaction", method=RequestMethod.POST)
+	public ResponseEntity<?> writeaction(Board board, Model model, Authentication authentication, Search search, @RequestPart MultipartFile[] files) throws Exception {
+		FileVO file = new FileVO();
+		User user = (User) authentication.getPrincipal();
+		board.setbWriter(user.getName());
+		if(files == null) {
+		boardservice.writeAction(board);
+		} else {
+		boardservice.writeAction(board);
+		for(MultipartFile f : files) {
+		String fileName = f.getOriginalFilename();
+		String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+		File destinationFile;
+		String destinationFileName;
+		String fileUrl = "C:/Users/l6-morning/Documents/work12/lcomputerstudy/src/main/resources/static/img/";
+		
+		do {
+			destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+			destinationFile = new File(fileUrl+ destinationFileName);
+		} while (destinationFile.exists());
+		
+		destinationFile.getParentFile().mkdirs();
+		f.transferTo(destinationFile);
+		file.setFileName(destinationFileName);
+		file.setFileRealName(fileName);
+		file.setFileUrl(fileUrl);
+		fileservice.fileInsert(file);}
+		}
+		
+		Pagination pagination = new Pagination();
+		List<Board> boardlist = boardservice.selectBoardList(pagination);
+		return new ResponseEntity<>(boardlist, HttpStatus.OK);
+		}
 }
 

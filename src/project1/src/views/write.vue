@@ -1,23 +1,23 @@
 <template>
     <div class="controller">
 		<div id="wriTitle" style="height: 50px"><b>글 작성</b></div>
-	<form action="/writeaction" method="post" enctype="multipart/form-data">
 		<table>
-			<tr>
-				<td><input type="text" name="bTitle" placeholder="제목을 입력하세요" style= required id = "title" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><textarea rows="12" cols="50" placeholder="내용을 입력하세요" name="bContent" required></textarea></td>
-			</tr>
-			<tr>
-				<td><input type = "file" name = "files" multiple="multiple"/> </td>
-			</tr>
-			<tr>
-				<td align="center"><input type="submit" value="등록" class="button" @click="writeaction({bId, })"></td>
-			</tr>
-	</table>
-	</form>
+			<tbody>
+				<tr>
+					<td><input type="text" name="bTitle" placeholder="제목을 입력하세요" v-model="bTitle" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><textarea rows="12" cols="50" placeholder="내용을 입력하세요" name="bContent" v-model="bContent"></textarea></td>
+				</tr>
+				<tr>
+					<td><v-file-input id="file" ref="file" v-model="fileinput"></v-file-input> </td>
+				</tr>
+				<tr>
+					<td align="center"><input type="submit" value="등록" class="button" @click="writeaction({bId, })"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </template>
 <style scoped>
@@ -90,3 +90,28 @@ textarea {resize:none;}
 
 	.dropdown-content a:hover {background-color: #f1f1f1}
 </style>
+<script>
+import { mapActions } from "vuex"
+
+export default {
+	created() {
+		this.$store.dispatch('boardlist')
+	},
+	data () {
+		return {
+			bId:'',
+			bTitle:'',
+			bContent:'',
+			bWriter:'',
+			file: [],
+			fileinput:null
+		}
+	},
+	methods: {
+		...mapActions(["writeaction"]),
+		image(image){
+			return require('@/images/'+image+'jpg');
+		},
+	}
+}
+</script>
