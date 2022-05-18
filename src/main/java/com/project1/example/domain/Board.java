@@ -1,5 +1,7 @@
 package com.project1.example.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Board {
 	private int bId;
 	private String bTitle;

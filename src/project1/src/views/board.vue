@@ -28,7 +28,7 @@
     			<input name="search" type="text" class="form-control" size="20" placeholder="검색어를 입력하세요.">
     			<input type="submit" value="찾기">
 			</form>
-            <a href="/write">글쓰기</a>
+            <router-link :to="{name:'write'}">글쓰기</router-link>
 	</div>
 </div>
 </template>

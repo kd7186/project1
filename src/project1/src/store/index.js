@@ -141,23 +141,22 @@ export default new Vuex.Store({
   },
   writeaction({commit},payload) {
     let formData = new FormData()
-    formData.append('file', payload.fileinput)
-    formData.append('bId', payload.bId)
+    for (let i = 0; i < this.fileinput.length; i += 1) {
+    const file = this.fileinput[i];
+    formData.append('files[${i}]', payload.fileinput)
+    }
+    formData.append('bName', payload.bName)
     formData.append('bContent', payload.bContent)
     formData.append('bWriter', payload.bWriter)
-    
+    console.log(formData)
     return new Promise((resolve, reject) => {
       axios.post('http://localhost:9000/api/writeaction',
-        formData,
-        {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-        })
+        formData)
         .then(Response => {
           console.log(Response.data)
           commit('READ_BOARD_LIST', Response.data)
           alert('게시글이 등록되었습니다.')
+          Route.push("/board")
         })
         .catch(Error => {
           console.log('error')

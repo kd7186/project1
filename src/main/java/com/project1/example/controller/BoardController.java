@@ -1,7 +1,11 @@
 package com.project1.example.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +13,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -110,10 +115,25 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/writeaction", method=RequestMethod.POST)
-	public ResponseEntity<?> writeaction(Board board, Model model, Authentication authentication, Search search, @RequestPart MultipartFile[] files) throws Exception {
-		FileVO file = new FileVO();
+	public ResponseEntity<?> writeaction(Board board, Model model, Authentication authentication, Search search,MultipartFile[] files) throws Exception {
 		User user = (User) authentication.getPrincipal();
 		board.setbWriter(user.getName());
+		FileVO file = new FileVO();
+	   /* filevo.setFileRealName(filename);
+	    filevo.setFileName(time);
+	    boardservice.writeAction(board);
+	    fileservice.fileInsert(filevo);
+	    
+	    String path = "C:\\Users\\l6-morning\\Documents\\work12\\project1\\src\\project1\\src\\images\\";
+	    String ext = filename.substring(filename.lastIndexOf(".")+1);
+	    File file = new File(path + time + ".jpg");
+	    try {
+	    	InputStream input = multipartFile.getInputStream();
+	    	FileUtils.copyInputStreamToFile(input, file);
+	    } catch (IOException e) {
+			FileUtils.deleteQuietly(file);
+			e.printStackTrace();
+		}*/
 		if(files == null) {
 		boardservice.writeAction(board);
 		} else {
@@ -124,12 +144,10 @@ public class BoardController {
 		File destinationFile;
 		String destinationFileName;
 		String fileUrl = "C:/Users/l6-morning/Documents/work12/lcomputerstudy/src/main/resources/static/img/";
-		
 		do {
 			destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
 			destinationFile = new File(fileUrl+ destinationFileName);
 		} while (destinationFile.exists());
-		
 		destinationFile.getParentFile().mkdirs();
 		f.transferTo(destinationFile);
 		file.setFileName(destinationFileName);
