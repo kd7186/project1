@@ -57,7 +57,7 @@ export default {
 			bWriter : this.$store.state.article.bWriter,
 			bDatetime : this.$store.state.article.bDatetime,
 			bBrdhit : this.$store.state.article.bBrdhit,
-
+			
 		
 		}
 	},

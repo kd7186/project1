@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import Route from '../router/index'
 import axios from 'axios'
 import router from '../router/index'
-import { fileURLToPath } from 'url'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -140,15 +139,12 @@ export default new Vuex.Store({
     })
   },
   writeaction({commit},payload) {
-    let formData = new FormData()
-    for (let i = 0; i < this.fileinput.length; i += 1) {
-    const file = this.fileinput[i];
-    formData.append('files[${i}]', payload.fileinput)
-    }
+    console.log(payload)
+    const formData = new FormData()
     formData.append('bName', payload.bName)
     formData.append('bContent', payload.bContent)
     formData.append('bWriter', payload.bWriter)
-    console.log(formData)
+    formData.append('file', payload.file)
     return new Promise((resolve, reject) => {
       axios.post('http://localhost:9000/api/writeaction',
         formData)

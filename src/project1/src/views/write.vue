@@ -11,10 +11,10 @@
 					<td colspan="2"><textarea rows="12" cols="50" placeholder="내용을 입력하세요" name="bContent" v-model="bContent"></textarea></td>
 				</tr>
 				<tr>
-					<td><input multiple id="file" ref="file" @change='onInputImage()' type="file"></td>
+					<td><input id="file" ref="file" @change='onInputImage()' type="file"></td>
 				</tr>
 				<tr>
-					<td align="center"><input type="submit" value="등록" class="button" @click="writeaction"></td>
+					<td align="center"><input type="submit" value="등록" class="button" @click="writeaction({bTitle:bTitle, bContent:bContent, file:file})"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -90,29 +90,22 @@ textarea {resize:none;}
 
 	.dropdown-content a:hover {background-color: #f1f1f1}
 </style>
-/* https://devbirdfeet.tistory.com/87*/
 <script>
 import { mapActions } from "vuex"
 export default {	
 	data () {
 		return {
-			input: {
 			bTitle:'',
 			bContent:'',
-			bWriter:'',
 			file: ''
-			}
 		}
 	},
 	methods: {
 		onInputImage() {
-			this.input.file	= this.$refs.file.files
-			console.log("this.input.image")
+			this.file= this.$refs.file
+			console.log(this.file)
 		},
-		...mapActions(["writeaction"]),
-		image(image){
-			return require('@/images/'+image+'jpg');
-			},
+		...mapActions(['writeaction']),
 		}
 	}
 </script>

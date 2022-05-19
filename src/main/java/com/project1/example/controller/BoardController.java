@@ -115,7 +115,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/writeaction", method=RequestMethod.POST)
-	public ResponseEntity<?> writeaction(Board board, Model model, Authentication authentication, Search search,MultipartFile[] files) throws Exception {
+	public ResponseEntity<?> writeaction(Board board, Model model, Authentication authentication, Search search,MultipartFile f) throws Exception {
 		User user = (User) authentication.getPrincipal();
 		board.setbWriter(user.getName());
 		FileVO file = new FileVO();
@@ -134,11 +134,10 @@ public class BoardController {
 			FileUtils.deleteQuietly(file);
 			e.printStackTrace();
 		}*/
-		if(files == null) {
+		if(f == null) {
 		boardservice.writeAction(board);
 		} else {
 		boardservice.writeAction(board);
-		for(MultipartFile f : files) {
 		String fileName = f.getOriginalFilename();
 		String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 		File destinationFile;
@@ -154,7 +153,6 @@ public class BoardController {
 		file.setFileRealName(fileName);
 		file.setFileUrl(fileUrl);
 		fileservice.fileInsert(file);}
-		}
 		
 		Pagination pagination = new Pagination();
 		List<Board> boardlist = boardservice.selectBoardList(pagination);
