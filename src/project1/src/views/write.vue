@@ -1,5 +1,5 @@
 <template>
-    <div class="controller">
+    <form enctype="multipart/form-data">
 		<div id="wriTitle" style="height: 50px"><b>글 작성</b></div>
 		<table>
 			<tbody>
@@ -18,7 +18,7 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
+	</form>
 </template>
 <style scoped>
 .controller { padding:25px 0; margin: auto; width:840px;}
@@ -97,7 +97,7 @@ export default {
 		return {
 			bTitle:'',
 			bContent:'',
-			file: ''
+			file:''
 		}
 	},
 	methods: {
@@ -106,6 +106,6 @@ export default {
 			console.log(this.file)
 		},
 		...mapActions(['writeaction']),
-		}
 	}
+}
 </script>

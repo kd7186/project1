@@ -140,25 +140,28 @@ export default new Vuex.Store({
   },
   writeaction({commit},payload) {
     console.log(payload)
-    const formData = new FormData()
-    formData.append('bName', payload.bName)
+    const formData= new FormData()
+    formData.append('bTitle', payload.bTitle)
     formData.append('bContent', payload.bContent)
-    formData.append('bWriter', payload.bWriter)
     formData.append('file', payload.file)
+    console.log(formData)
     return new Promise((resolve, reject) => {
       axios.post('http://localhost:9000/api/writeaction',
-        formData)
+        formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarynHlbq58vtkmKcQMl'
+          }
+        }
+      )
         .then(Response => {
           console.log(Response.data)
-          commit('READ_BOARD_LIST', Response.data)
           alert('게시글이 등록되었습니다.')
-          Route.push("/board")
+         .then(() => Route.push({name : 'board'}))
         })
         .catch(Error => {
           console.log('error')
           reject(Error)
           alert('게시글 등록 실패')
-          .then(() => router.push({name:'ProductRegistration'}))
         })
     })
   },

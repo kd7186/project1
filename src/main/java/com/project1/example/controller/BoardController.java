@@ -108,32 +108,18 @@ public class BoardController {
 		return new ResponseEntity<>(article, HttpStatus.OK);
 	}
 	
-	@GetMapping("/write")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/* @GetMapping("/write")
 	public ResponseEntity<?> write(Model model){
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
+	} */
 	
 	@RequestMapping(value="/writeaction", method=RequestMethod.POST)
-	public ResponseEntity<?> writeaction(Board board, Model model, Authentication authentication, Search search,MultipartFile f) throws Exception {
+	public ResponseEntity<?> writeaction(Board board, Authentication authentication) {
+		MultipartFile multipartFile = board.getFile();
 		User user = (User) authentication.getPrincipal();
 		board.setbWriter(user.getName());
 		FileVO file = new FileVO();
-	   /* filevo.setFileRealName(filename);
-	    filevo.setFileName(time);
-	    boardservice.writeAction(board);
-	    fileservice.fileInsert(filevo);
-	    
-	    String path = "C:\\Users\\l6-morning\\Documents\\work12\\project1\\src\\project1\\src\\images\\";
-	    String ext = filename.substring(filename.lastIndexOf(".")+1);
-	    File file = new File(path + time + ".jpg");
-	    try {
-	    	InputStream input = multipartFile.getInputStream();
-	    	FileUtils.copyInputStreamToFile(input, file);
-	    } catch (IOException e) {
-			FileUtils.deleteQuietly(file);
-			e.printStackTrace();
-		}*/
+		/*
 		if(f == null) {
 		boardservice.writeAction(board);
 		} else {
@@ -152,11 +138,9 @@ public class BoardController {
 		file.setFileName(destinationFileName);
 		file.setFileRealName(fileName);
 		file.setFileUrl(fileUrl);
-		fileservice.fileInsert(file);}
+		fileservice.fileInsert(file);}*/
 		
-		Pagination pagination = new Pagination();
-		List<Board> boardlist = boardservice.selectBoardList(pagination);
-		return new ResponseEntity<>(boardlist, HttpStatus.OK);
+		return new ResponseEntity<>(board,HttpStatus.OK);
 		}
 }
 

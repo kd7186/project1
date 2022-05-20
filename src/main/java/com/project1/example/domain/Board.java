@@ -14,7 +14,14 @@ public class Board {
 	private int bGroup;
 	private int bOrder;
 	private int bDepth;
+	private MultipartFile file;
 	
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 	public int getRownum() {
 		return rownum;
 	}
