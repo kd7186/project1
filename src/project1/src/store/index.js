@@ -3,14 +3,17 @@ import Vuex from 'vuex'
 import Route from '../router/index'
 import axios from 'axios'
 import router from '../router/index'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     Userinfo:{User_Id:null,User_Name:null,User_auth:[],User_token:null},
     boardlist:[],
+    board:[{bTitle:' ', bContent:' '}],
     UserList:[],
-    article:[]
+    article:[],
+    surveylist:[]
   },
   mutations: {
     NewUsers: (state,payload) => {
@@ -37,6 +40,9 @@ export default new Vuex.Store({
       state.article.bId = data.bId
       state.article = data
       console.log(state.article)
+    },
+    READ_SURVEY_LIST(state,data) {
+      state.surveylist = data
     },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
@@ -122,6 +128,19 @@ export default new Vuex.Store({
         })
     })
   },
+  Survey({commit},payload) {
+    return new Promise((resolve,reject) => {
+      axios.get('https://localhost:9000/api/survey', payload)
+      .then(Response => {
+        console.log(Response.data)
+        commit('READ_SURVEY_LIST', Response.data)
+      })
+      .catch(Error=> {
+        console.log('error')
+        reject(Error)
+      })
+    })
+  },
   article({commit},payload) {
     //var obj= {bId: router.currentRoute.params.bId}
     //payload = obj
@@ -138,20 +157,16 @@ export default new Vuex.Store({
         })
     })
   },
-  writeaction({commit},payload) {
+  /*writeaction({commit},payload) {
     console.log(payload)
-    const formData= new FormData()
-    formData.append('bTitle', payload.bTitle)
-    formData.append('bContent', payload.bContent)
-    formData.append('file', payload.file)
-    console.log(formData)
+   // let formData= new FormData()
+    //formData.append('bTitle', payload.bTitle)
+    //formData.append('bContent', payload.bContent)
+    //formData.append('file', payload.fileinput)
+    //console.log(formData) 
     return new Promise((resolve, reject) => {
       axios.post('http://localhost:9000/api/writeaction',
-        formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarynHlbq58vtkmKcQMl'
-          }
-        }
+       payload 
       )
         .then(Response => {
           console.log(Response.data)
@@ -164,7 +179,40 @@ export default new Vuex.Store({
           alert('게시글 등록 실패')
         })
     })
+  },*/
+
+  writeaction({commit},payload) {
+    console.log(payload)
+    let formData= new FormData()
+    formData.append('bTitle', payload.bTitle)
+    formData.append('bContent', payload.bContent)
+    //formData.append('file', payload.fileinput)
+    console.log(formData) 
+    return new Promise((resolve, reject) => {
+        axios({
+          url: "http://localhost:9000/api/writeaction",
+          method: "post",
+          headers: {
+            "Content-Type": "multipart/formdata; boundary = " + new Date().getTime()
+          },
+          data: formData,
+        }).then(Response => {
+          console.log(Response.data)
+          alert('게시글이 등록되었습니다.')
+         .then(() => Route.push({name : 'board'}))
+        })
+        .catch(Error => {
+          console.log('error')
+          reject(Error)
+          alert('게시글 등록 실패')
+        })
+    })
   },
+/* axios.post('http://localhost:9000/api/writeaction', formData, {
+          headers: {
+            "Content-Type": "multipart/form-data; boundary = " + new Date().getTime()
+          }
+      }) */
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`

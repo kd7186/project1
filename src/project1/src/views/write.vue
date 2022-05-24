@@ -1,24 +1,26 @@
 <template>
-    <form enctype="multipart/form-data">
-		<div id="wriTitle" style="height: 50px"><b>글 작성</b></div>
 		<table>
 			<tbody>
 				<tr>
-					<td><input type="text" name="bTitle" placeholder="제목을 입력하세요" v-model="bTitle" />
+					<td>
+						<h2 class="pt-2">글 작성</h2>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><textarea rows="12" cols="50" placeholder="내용을 입력하세요" name="bContent" v-model="bContent"></textarea></td>
+					<td><input style="height:100%; width:100%;" placeholder="제목을 입력하세요" v-model="bTitle">
+					</td>
 				</tr>
 				<tr>
-					<td><input id="file" ref="file" @change='onInputImage()' type="file"></td>
+					<td colspan="2"><input style="height:650px; width:840px;" placeholder="내용을 입력하세요" v-model="bContent"></td>
 				</tr>
 				<tr>
-					<td align="center"><input type="submit" value="등록" class="button" @click="writeaction({bTitle:bTitle, bContent:bContent, file:file})"></td>
+					<td><v-file-input id="file" ref="file" v-model="fileinput"></v-file-input></td>
+				</tr>
+				<tr>
+					<td align="center"><v-btn @click="writeaction({bTitle:bTitle, bContent:bContent})">등록 </v-btn></td>
 				</tr>
 			</tbody>
 		</table>
-	</form>
 </template>
 <style scoped>
 .controller { padding:25px 0; margin: auto; width:840px;}
@@ -92,20 +94,19 @@ textarea {resize:none;}
 </style>
 <script>
 import { mapActions } from "vuex"
-export default {	
+export default {
+	created() {
+		this.$store.dispatch('board')
+	},
 	data () {
 		return {
 			bTitle:'',
 			bContent:'',
-			file:''
+			fileinput:null
 		}
 	},
 	methods: {
-		onInputImage() {
-			this.file= this.$refs.file
-			console.log(this.file)
-		},
-		...mapActions(['writeaction']),
+		...mapActions(["writeaction"]),
 	}
 }
 </script>

@@ -1,39 +1,24 @@
 package com.project1.example.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,12 +28,8 @@ import com.project1.example.domain.Search;
 import com.project1.example.service.BoardService;
 import com.project1.example.service.CommentService;
 import com.project1.example.service.FileService;
-import com.project1.example.domain.Comment;
-import com.project1.example.domain.FileVO;
 import com.project1.example.config.JwtUtils;
 import com.project1.example.domain.User;
-import com.project1.example.domain.UserInfo;
-import com.project1.example.response.JwtResponse;
 import com.project1.example.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -113,16 +94,16 @@ public class BoardController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	} */
 	
-	@RequestMapping(value="/writeaction", method=RequestMethod.POST)
+	@PostMapping("/writeaction")
 	public ResponseEntity<?> writeaction(Board board, Authentication authentication) {
 		MultipartFile multipartFile = board.getFile();
 		User user = (User) authentication.getPrincipal();
 		board.setbWriter(user.getName());
-		FileVO file = new FileVO();
+		//FileVO file = new FileVO();
 		/*
-		if(f == null) {
+		if(f == null) { */
 		boardservice.writeAction(board);
-		} else {
+		/* } else {
 		boardservice.writeAction(board);
 		String fileName = f.getOriginalFilename();
 		String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();

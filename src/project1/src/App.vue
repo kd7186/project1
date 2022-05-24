@@ -10,7 +10,7 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Login</v-list-item-title>
+            <v-list-item-title>로그인</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
          <v-list-item router :to="{name:'admin'}">
@@ -27,6 +27,14 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>게시판</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      <v-list-item router :to="{name:'Survey'}">
+          <v-list-item-action>
+            <v-icon>mdi-card-text-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>설문조사</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

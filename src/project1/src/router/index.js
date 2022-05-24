@@ -9,6 +9,9 @@ import admin from '../views/admin.vue'
 import board from '../views/board.vue'
 import write from '../views/write.vue'
 import article from '../views/article.vue'
+import Survey from '../views/Survey.vue'
+import surveywrite from '../views/surveywrite.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,9 +46,19 @@ const routes = [
     component:board
   },
   {
+    path: '/survey',
+    name: 'Survey',
+    component: Survey
+  },
+  {
     path: '/write',
     name: 'write',
     component:write,
+  },
+  {
+    path: '/surveywrite',
+    name: 'surveywrite',
+    component:surveywrite,
   },
   {path: '/article/:bId',
    name:'article',
