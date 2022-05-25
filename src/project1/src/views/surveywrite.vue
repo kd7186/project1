@@ -1,8 +1,8 @@
 <template>
   <div style="width: 100%">
     <v-col class="mx-auto" cols="12" sm="6">
-      <v-textarea
-        v-model="title"
+      <v-text-field
+        v-model="stitle"
         label="설문 제목"
         auto-grow
         outlined
@@ -10,8 +10,8 @@
         row-height="30"
         shaped
       >
-      </v-textarea>
-      <v-text-field v-model="disc" label="설문지 설명"></v-text-field>
+      </v-text-field>
+      <v-textarea v-model="sdescription" label="설문지 설명"></v-textarea>
     </v-col>
     <br />
     <div>
@@ -26,19 +26,16 @@
       ></component>
     </div>
     <v-col cols="12" align="right">
-      <v-btn router :to="{ name: 'SurveyList' }">
-        <font-awesome-icon icon="backspace" />
-      </v-btn>
       <v-btn @click="save"> save </v-btn>
     </v-col>
   </div>
 </template>
 <script>
-/* import ShortAnswer from "@/views/ShortAnswer";
+import ShortAnswer from "@/views/ShortAnswer";
 import LongAnswer from "@/views/LongAnswer";
 import RadioAnswer from "@/views/RadioAnswer";
 import CheckBox from "@/views/CheckBox.vue";
-import DropDown from "@/views/DropDown.vue"; */
+import DropDown from "@/views/DropDown.vue";
 import { mapActions } from "vuex";
 export default {
   data() {
@@ -49,30 +46,30 @@ export default {
     };
   },
   computed: {
-    title: {
+    stitle: {
       get() {
-        return this.$store.state.Survey.title;
+        return this.$store.state.Survey.stitle;
       },
       set(value) {
-        this.$store.commit("updateTitle", value);
+        this.$store.commit("updatesTitle", value);
       },
     },
-    disc: {
+    sdescription: {
       get() {
-        return this.$store.state.Survey.disc;
+        return this.$store.state.Survey.sDescription;
       },
       set(value) {
-        this.$store.commit("updateDisc", value);
+        this.$store.commit("updatesDescription", value);
       },
     },
   },
-  /* components: {
+  components: {
     ShortAnswer,
     LongAnswer,
     RadioAnswer,
     CheckBox,
     DropDown,
-  }, */
+  },
   methods: {
     ...mapActions(["CreateSurvey"]),
     addQuestion() {
@@ -105,7 +102,7 @@ export default {
     },
   },
   created() {
-    (this.$store.state.Survey = { title: "", disc: "", questions: [] }),
+    (this.$store.state.Survey = { stitle: "", sdescription: "", questions: [] }),
       this.$store.state.Survey.questions.push({ q: {}, answers: [] });
     this.Questions.push(ShortAnswer);
   },

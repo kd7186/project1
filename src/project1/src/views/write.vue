@@ -7,11 +7,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td><input style="height:100%; width:100%;" placeholder="제목을 입력하세요" v-model="bTitle">
+					<td><v-text-field style="height:100%; width:100%;" label="제목" v-model="bTitle"></v-text-field>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><input style="height:650px; width:840px;" placeholder="내용을 입력하세요" v-model="bContent"></td>
+					<td colspan="2"><v-textarea style="width:840px;" label="내용" v-model="bContent"></v-textarea></td>
 				</tr>
 				<tr>
 					<td><v-file-input id="file" ref="file" v-model="fileinput"></v-file-input></td>
