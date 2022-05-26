@@ -8,20 +8,20 @@
 	<td width="120px" style="color:white">날짜</td>
 	<td width="50px" style="color:white">결과</td>
 	</tr>
-			<tr v-for="(item, i) in surveylist" :key="i">
+			<tr v-for="(item, i) in SurveyList" :key="i">
 			<td>{{item.sId}}</td>
 			<td>
-				<router-link :to="{name:'surveydetail', params:{ bId : item.sId }}">{{item.sTitle}}</router-link>
+				<router-link :to="{name:'surveydetail', params:{ sId : item.sId }}">{{item.sTitle}}</router-link>
 			</td>
-			<td>{{item.bWriter}}</td>
-			<td>{{item.bDatetime}}</td>
-			<td>{{item.bBrdhit}}</td>
+			<td>{{item.sWriter}}</td>
+			<td>{{item.sDatetime}}</td>
+			<td></td>
 			</tr>
 	</table>
 	<div style="text-align: center;">
     			<select name="find">
-        			<option value="s_writer">작성자</option>
-        			<option value="s_title">제목</option>
+        			<option value="sWriter">작성자</option>
+        			<option value="sTitle">제목</option>
     			</select>
     			<input name="search" type="text" class="form-control" size="20" placeholder="검색어를 입력하세요.">
     			<input type="submit" value="찾기">
@@ -34,10 +34,10 @@ import { mapState, mapActions } from "vuex"
 
 export default {
 	created() {
-		this.$store.dispatch('survey')
+		this.$store.dispatch('getSurveyList')
 	},
 	computed: {
-		...mapState(["surveylist"])
+		...mapState(["SurveyList"])
 	},
 	methods: {
     article: function (sId) {

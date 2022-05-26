@@ -3,13 +3,14 @@
     <br />
     <p>Q. {{ this.question }}</p>
     <v-container class="px-0" fluid>
-      <v-checkbox
-        v-for="(item, index) in this.answers"
-        :key="index"
-        v-model="selected"
-        :label="item.answer"
-        :value="item.answer"
-      ></v-checkbox>
+      <v-radio-group v-model="radioGroup">
+        <v-radio
+          v-for="(item, index) in this.answers"
+          :key="index"
+          :label="item.answer"
+          :value="item.answer"
+        ></v-radio>
+      </v-radio-group>
     </v-container>
   </div>
 </template>
@@ -20,20 +21,20 @@ export default {
     return {};
   },
   computed: {
-    selected: {
+    radioGroup: {
       get() {
-        return this.$store.state.Answers.questions[this.index].answers;
+        return this.$store.state.Answers.questions[this.index].answers[0];
       },
       set(value) {
         let data = { value: value, index: this.index };
-        this.$store.commit("update_MultipleAnswer", data);
+        this.$store.commit("update_SingleAnswer", data);
       },
     },
   },
   created() {
     this.$store.state.Answers.questions.push({
       qId: this.qId,
-      t: "CheckQ",
+      t: "RadioQ",
       answers: [],
     });
   },

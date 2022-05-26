@@ -6,7 +6,7 @@
           <v-col cols="12" sm="6" md="10">
             <v-text-field
               v-model="question"
-              label="질문"
+              label="질문 내용"
             ></v-text-field>
           </v-col>
         </div>

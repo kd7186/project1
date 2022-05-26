@@ -13,7 +13,11 @@ export default new Vuex.Store({
     board:[{bTitle:' ', bContent:' '}],
     UserList:[],
     article:[],
-    surveylist:[]
+    SurveyList:[],
+    Survey: { sTitle: '', sDescription:'', questions: []},
+    SurveyDetail: { sId:'', sTitle:'', sDescription:'',sWriter:'', sDatetime:'', questions:[]},
+    Answers: {sId:'', questions:[]},
+    Response: {sId:'', questions:[]}
   },
   mutations: {
     NewUsers: (state,payload) => {

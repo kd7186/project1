@@ -2,7 +2,7 @@
   <div style="width: 100%">
     <v-col class="mx-auto" cols="12" sm="6">
       <v-text-field
-        v-model="stitle"
+        v-model="sTitle"
         label="설문 제목"
         auto-grow
         outlined
@@ -11,7 +11,7 @@
         shaped
       >
       </v-text-field>
-      <v-textarea v-model="sdescription" label="설문지 설명"></v-textarea>
+      <v-textarea v-model="sDescription" label="설문지 설명"></v-textarea>
     </v-col>
     <br />
     <div>
@@ -46,15 +46,15 @@ export default {
     };
   },
   computed: {
-    stitle: {
+    sTitle: {
       get() {
-        return this.$store.state.Survey.stitle;
+        return this.$store.state.Survey.sTitle;
       },
       set(value) {
         this.$store.commit("updatesTitle", value);
       },
     },
-    sdescription: {
+    sDescription: {
       get() {
         return this.$store.state.Survey.sDescription;
       },
@@ -102,7 +102,7 @@ export default {
     },
   },
   created() {
-    (this.$store.state.Survey = { stitle: "", sdescription: "", questions: [] }),
+    (this.$store.state.Survey = { sTitle: "", sDescription: "", questions: [] }),
       this.$store.state.Survey.questions.push({ q: {}, answers: [] });
     this.Questions.push(ShortAnswer);
   },
