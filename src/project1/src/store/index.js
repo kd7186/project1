@@ -65,6 +65,37 @@ export default new Vuex.Store({
    localStorage.removeItem("token")
    console.log(state.Userinfo)
    console.log("Logout"+localStorage.getItem("token"))
+  },
+  updateAnswer(state, data) {
+    state.Survey.questions[data.qindex].answers[data.index].answer = data.value
+  },
+  updateQuestion(state, data) {
+    state.Survey.questions[data.index].q = data.value
+  },
+  updatesTitle(state, data) {
+    state.Survey.sTitle = data
+  },
+  updatesDescription(state, data) {
+    state.Survey.sDescription = data
+  },
+  updateOptions(state, data) {
+    state.Survey.questions[data.index].answers = data.value
+  },
+  GET_SURVEYDETAIL(state, data) {
+    state.SurveyDetail = data
+  },
+  update_S_num(state, data) {
+    state.Answers.s_num = data
+  },
+  update_SingleAnswer(state, data) {
+    state.Answers.questions[data.index].answers[0] = data.value
+  },
+  update_MultipleAnswer(state, data) {
+    state.Answers.questions[data.index].answers = data.value
+  },
+  GET_SURVEYRESULTS(state, data) {
+    state.Response.s_num = data.s_num
+    state.Response.questions = data.questions
   }
  },
   actions: {
@@ -217,6 +248,32 @@ export default new Vuex.Store({
             "Content-Type": "multipart/form-data; boundary = " + new Date().getTime()
           }
       }) */
+      getSurveyList({ commit }) {
+        return new Promise((resolve, reject) => {
+          axios.get('http://localhost:9000/api/surveylist')
+            .then(Response => {
+              commit('GET_SURVEYLIST', Response.data)
+            })
+            .catch(Error => {
+              console.log('getSurveyList_error')
+            })
+        })
+      },
+      CreateSurvey({ state, commit }) {
+        return new Promise((resolve, reject) => {
+          console.log(state.Survey)
+          axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
+          axios.post('http://localhost:9000/api/survey', state.Survey)
+            .then(Response => {
+              commit('GET_SURVEYLIST', Response.data)
+              Route.push("/surveylist")
+            })
+            .catch(Error => {
+              reject(Error)
+              console.log('CreateSurvey_error')
+            })
+        })
+      },
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
