@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project1.example.mapper.SurveyMapper">
+
+	<select id="getsurveylist" resultType="Survey">
+		SELECT * FROM
+						(select @rownum := @rownum-1 as rownum,
+					ta.*
+		FROM 				
+						lc_survey ta, 
+					 (select @rownum := (select COUNT(*)+1 from lc_survey ta)) tb 
+		ORDER BY 	s_datetime desc)a
+	</select>
+	
+	<insert id="insertSurvey" parameterType="Survey">
+		INSERT INTO survey(
+					title,
+					disc,
+					writer
+					)
+		VALUES (
+				#{title},
+				#{disc},
+				#{writer}
+				)
+	</insert>
+	<insert id="insertQuestions" parameterType="Question">
+		INSERT INTO question(
+					s_num,
+					t,
+					q
+					)
+		VALUES (
+				(select s_num FROM survey ORDER BY 	 s_num DESC  LIMIT 1),
+				#{t},
+				#{q}
+				)
+	</insert>
+	<insert id="insertAnswers" parameterType="Answer">  
+	        INSERT INTO	answer (
+	        	a,
+	        	q_num
+	      ) VALUES 
+	      		(#{answer},
+	      		(select q_num FROM question ORDER BY  q_num DESC  LIMIT 1)
+	      		)
+	</insert>
+	
+	<select id="getSurveyDetail" parameterType="Integer" resultType="Survey">
+		SELECT * FROM survey WHERE s_num = #{s_num}
+	</select>
+	<select id="getQuestionDetail" parameterType="Integer" resultType="Question">
+		SELECT * FROM question WHERE s_num = #{s_num}
+	</select>
+	<select id="getAnswerDetail" parameterType="Integer" resultType="Answer">
+		SELECT a as answer, q_num, a_num FROM answer WHERE q_num = #{q_num}
+	</select>
+	
+	<insert id="insertSubmission" parameterType="Submission">
+		INSERT INTO vue_submission(
+					s_num
+		) VALUES (
+				#{s_num}
+				)
+	</insert>
+	<insert id="insertResponse" parameterType="Response">
+		INSERT INTO vue_response(
+					sub_num,
+					q_num,
+					t
+		) VALUES (
+				(select sub_num FROM vue_submission ORDER BY 	 sub_num DESC  LIMIT 1),
+				#{q_num},
+				#{t}
+				)
+	</insert>
+	<insert id="insertReAnswer" parameterType="map">
+		INSERT INTO vue_reanswers(
+					s_num,
+					q_num,
+					r_num,
+					a
+		) VALUES (
+				#{s_num},
+				#{q_num},
+				(select r_num FROM vue_response ORDER BY 	 r_num DESC  LIMIT 1),
+				#{a}
+				)
+	</insert>
+	
+	<select id="getResultQuestion" parameterType="Integer" resultType="Question">
+		SELECT q_num, t, q  FROM question WHERE s_num = #{s_num}
+	</select>
+	
+	<select id="getResultAnswers" parameterType="map" resultType="String">
+		SELECT a FROM vue_reanswers WHERE s_num = #{s_num} AND q_num = #{q_num}  GROUP BY a
+	</select>
+	<select id="getResultAnswersCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(a) AS aCount FROM vue_reanswers WHERE s_num = #{s_num} AND q_num = #{q_num}  GROUP BY a
+	</select>
+	
+	<select id="getQ_num" parameterType="Integer" resultType="Integer">
+		SELECT q_num FROM question WHERE s_num = #{s_num}
+	</select>
+	
+	<select id="getSub_num" parameterType="Integer" resultType="Integer">
+		SELECT sub_num FROM vue_submission WHERE s_num = #{s_num}
+	</select>
+	
+	<delete id="deleteSurvey" parameterType="Integer">
+		DELETE FROM survey WHERE s_num = #{s_num}
+	</delete>
+	
+	<delete id="deleteAnswers" parameterType="Integer">
+		DELETE FROM answer WHERE q_num = #{q}
+	</delete>
+	
+	<delete id="deleteQuestions" parameterType="Integer">
+		DELETE FROM question WHERE s_num = #{s_num}
+	</delete>
+
+	<delete id="deleteReAnswers" parameterType="Integer">
+		DELETE FROM vue_reanswers WHERE s_num = #{s_num}
+	</delete>
+
+	<delete id="deleteSubmission" parameterType="Integer">
+		DELETE FROM vue_submission WHERE s_num = #{s_num}
+	</delete>
+
+	<delete id="deleteResponse" parameterType="Integer">
+		DELETE FROM vue_response WHERE sub_num = #{s_}
+	</delete>
+</mapper>

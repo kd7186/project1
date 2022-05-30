@@ -45,9 +45,6 @@ export default new Vuex.Store({
       state.article = data
       console.log(state.article)
     },
-    READ_SURVEY_LIST(state,data) {
-      state.surveylist = data
-    },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
   },
@@ -65,6 +62,40 @@ export default new Vuex.Store({
    localStorage.removeItem("token")
    console.log(state.Userinfo)
    console.log("Logout"+localStorage.getItem("token"))
+  },
+  GET_SURVEYLIST(state, data) {
+    state.SurveyList = data
+  },
+  updateAnswer(state, data) {
+    state.Survey.questions[data.qindex].answers[data.index].answer = data.value
+  },
+  updateQuestion(state, data) {
+    state.Survey.questions[data.index].q = data.value
+  },
+  updatesTitle(state, data) {
+    state.Survey.sTitle = data
+  },
+  updatesDescription(state, data) {
+    state.Survey.sDescription = data
+  },
+  updateOptions(state, data) {
+    state.Survey.questions[data.index].answers = data.value
+  },
+  GET_SURVEYDETAIL(state, data) {
+    state.SurveyDetail = data
+  },
+  update_S_num(state, data) {
+    state.Answers.sId = data
+  },
+  update_SingleAnswer(state, data) {
+    state.Answers.questions[data.index].answers[0] = data.value
+  },
+  update_MultipleAnswer(state, data) {
+    state.Answers.questions[data.index].answers = data.value
+  },
+  GET_SURVEYRESULTS(state, data) {
+    state.Response.sId = data.sId
+    state.Response.questions = data.questions
   }
  },
   actions: {
@@ -132,16 +163,31 @@ export default new Vuex.Store({
         })
     })
   },
-  Survey({commit},payload) {
+  Survey({commit}) {
     return new Promise((resolve,reject) => {
       axios.get('https://localhost:9000/api/survey', payload)
       .then(Response => {
         console.log(Response.data)
-        commit('READ_SURVEY_LIST', Response.data)
+        commit('GET_SURVEY_LIST', Response.data)
       })
       .catch(Error=> {
         console.log('error')
         reject(Error)
+      })
+    })
+  },
+  CreateSurvey({state, commit}) {
+    return new Promise((resolve, reject) => {
+    console.log(state.Survey)
+    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
+    axios.post('http://localhost:9010/api/auth/survey', state.Survey)
+      .then(Response => {
+        commit('GET_SURVEYLIST', Response.data)
+        Route.push("/surveylist")
+      })
+      .catch(Error => {
+        reject(Error)
+        console.log('CreateSurvey_error')
       })
     })
   },
@@ -209,6 +255,17 @@ export default new Vuex.Store({
           console.log('error')
           reject(Error)
           alert('게시글 등록 실패')
+        })
+    })
+  },
+  getSurveyList({ commit }) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:9000/api/surveylist')
+        .then(Response => {
+          commit('GET_SURVEYLIST', Response.data)
+        })
+        .catch(Error => {
+          console.log('getSurveyList_error')
         })
     })
   },
