@@ -1,0 +1,83 @@
+18:32:10.963 INFO  --- [restartedMain] c.p.example.Project1Application : Starting Project1Application using Java 17.0.1 on DESKTOP-IAQU242 with PID 16328 (C:\Users\ruist\OneDrive\문서\GitHub\project1\bin\main started by ruist in C:\Users\ruist\OneDrive\문서\GitHub\project1) 
+18:32:10.968 DEBUG --- [restartedMain] c.p.example.Project1Application : Running with Spring Boot v2.6.7, Spring v5.3.19 
+18:32:10.968 INFO  --- [restartedMain] c.p.example.Project1Application : The following 1 profile is active: "local" 
+18:32:11.021 WARN  --- [restartedMain] o.s.b.c.c.ConfigDataEnvironment : Property 'spring.profiles[0]' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 10:5] 
+18:32:13.346 DEBUG --- [restartedMain] c.p.example.config.AuthTokenFilter : Filter 'authenticationJwtTokenFilter' configured for use 
+18:32:14.058 INFO  --- [restartedMain] c.p.example.Project1Application : Started Project1Application in 3.824 seconds (JVM running for 5.485) 
+18:40:19.880 ERROR --- [http-nio-9000-exec-2] c.project1.example.config.JwtUtils : Invalid JWT token: JWT strings must contain exactly 2 period characters. Found: 0 
+18:40:19.890 ERROR --- [http-nio-9000-exec-2] c.p.e.config.AuthEntryPointJwt : Unauthorized error: Full authentication is required to access this resource 
+18:40:24.698 ERROR --- [http-nio-9000-exec-5] c.project1.example.config.JwtUtils : Invalid JWT token: JWT strings must contain exactly 2 period characters. Found: 0 
+18:40:24.779 INFO  --- [http-nio-9000-exec-5] c.p.e.controller.AuthController : testLoginRequest [username=admin, password=1234] 
+18:40:25.097 DEBUG --- [http-nio-9000-exec-5] c.p.e.mapper.UserMapper.readUser : ==>  Preparing: SELECT u_id as username, u_password as password, u_name as name, u_phone as phone, u_isAccountNonExpired as isAccountNonExpired, u_isAccountNonLocked as isAccountNonLocked, u_isCredentialNonExpired as isCredentialsNonExpired, u_isEnabled as isEnabled FROM lc_user WHERE 1=1 AND u_id = ? 
+18:40:25.135 DEBUG --- [http-nio-9000-exec-5] c.p.e.mapper.UserMapper.readUser : ==> Parameters: admin(String) 
+18:40:25.196 TRACE --- [http-nio-9000-exec-5] c.p.e.mapper.UserMapper.readUser : <==    Columns: username, password, name, phone, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled 
+18:40:25.197 TRACE --- [http-nio-9000-exec-5] c.p.e.mapper.UserMapper.readUser : <==        Row: admin, $2a$10$5uERQP9U555RPnVT/IfuJenzgDQqLnFS3iV.Cxmljjl6Rqyxjo.fC, admin, 01024653634, 1, 1, 1, 1 
+18:40:25.199 DEBUG --- [http-nio-9000-exec-5] c.p.e.mapper.UserMapper.readUser : <==      Total: 1 
+18:40:25.205 DEBUG --- [http-nio-9000-exec-5] c.p.e.m.UserMapper.readAuthorities : ==>  Preparing: SELECT u_auth FROM lc_auth WHERE 1=1 AND u_id = ? 
+18:40:25.205 DEBUG --- [http-nio-9000-exec-5] c.p.e.m.UserMapper.readAuthorities : ==> Parameters: admin(String) 
+18:40:25.212 TRACE --- [http-nio-9000-exec-5] c.p.e.m.UserMapper.readAuthorities : <==    Columns: u_auth 
+18:40:25.212 TRACE --- [http-nio-9000-exec-5] c.p.e.m.UserMapper.readAuthorities : <==        Row: ROLE_USER 
+18:40:25.213 TRACE --- [http-nio-9000-exec-5] c.p.e.m.UserMapper.readAuthorities : <==        Row: ROLE_ADMIN 
+18:40:25.213 DEBUG --- [http-nio-9000-exec-5] c.p.e.m.UserMapper.readAuthorities : <==      Total: 2 
+18:40:25.329 INFO  --- [http-nio-9000-exec-5] c.p.e.controller.AuthController : ddddUser [username=admin, password=$2a$10$5uERQP9U555RPnVT/IfuJenzgDQqLnFS3iV.Cxmljjl6Rqyxjo.fC, name=admin, phone=01024653634, uDateTime=null, authorities=[ROLE_USER, ROLE_ADMIN], isAccountNonExpired=true, isAccountNonLocked=true, isCredentialsNonExpired=true, isEnabled=true] 
+18:40:26.659 DEBUG --- [http-nio-9000-exec-7] c.p.e.mapper.UserMapper.readUser : ==>  Preparing: SELECT u_id as username, u_password as password, u_name as name, u_phone as phone, u_isAccountNonExpired as isAccountNonExpired, u_isAccountNonLocked as isAccountNonLocked, u_isCredentialNonExpired as isCredentialsNonExpired, u_isEnabled as isEnabled FROM lc_user WHERE 1=1 AND u_id = ? 
+18:40:26.659 DEBUG --- [http-nio-9000-exec-7] c.p.e.mapper.UserMapper.readUser : ==> Parameters: admin(String) 
+18:40:26.661 TRACE --- [http-nio-9000-exec-7] c.p.e.mapper.UserMapper.readUser : <==    Columns: username, password, name, phone, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled 
+18:40:26.661 TRACE --- [http-nio-9000-exec-7] c.p.e.mapper.UserMapper.readUser : <==        Row: admin, $2a$10$5uERQP9U555RPnVT/IfuJenzgDQqLnFS3iV.Cxmljjl6Rqyxjo.fC, admin, 01024653634, 1, 1, 1, 1 
+18:40:26.661 DEBUG --- [http-nio-9000-exec-7] c.p.e.mapper.UserMapper.readUser : <==      Total: 1 
+18:40:26.661 DEBUG --- [http-nio-9000-exec-7] c.p.e.m.UserMapper.readAuthorities : ==>  Preparing: SELECT u_auth FROM lc_auth WHERE 1=1 AND u_id = ? 
+18:40:26.662 DEBUG --- [http-nio-9000-exec-7] c.p.e.m.UserMapper.readAuthorities : ==> Parameters: admin(String) 
+18:40:26.663 TRACE --- [http-nio-9000-exec-7] c.p.e.m.UserMapper.readAuthorities : <==    Columns: u_auth 
+18:40:26.663 TRACE --- [http-nio-9000-exec-7] c.p.e.m.UserMapper.readAuthorities : <==        Row: ROLE_USER 
+18:40:26.663 TRACE --- [http-nio-9000-exec-7] c.p.e.m.UserMapper.readAuthorities : <==        Row: ROLE_ADMIN 
+18:40:26.663 DEBUG --- [http-nio-9000-exec-7] c.p.e.m.UserMapper.readAuthorities : <==      Total: 2 
+18:40:26.696 DEBUG --- [http-nio-9000-exec-7] c.p.e.mapper.BoardMapper.boardCount : ==>  Preparing: SELECT COUNT(*) as count FROM lc_board 
+18:40:26.697 DEBUG --- [http-nio-9000-exec-7] c.p.e.mapper.BoardMapper.boardCount : ==> Parameters:  
+18:40:26.703 TRACE --- [http-nio-9000-exec-7] c.p.e.mapper.BoardMapper.boardCount : <==    Columns: count 
+18:40:26.703 TRACE --- [http-nio-9000-exec-7] c.p.e.mapper.BoardMapper.boardCount : <==        Row: 2 
+18:40:26.704 DEBUG --- [http-nio-9000-exec-7] c.p.e.mapper.BoardMapper.boardCount : <==      Total: 1 
+18:40:26.714 DEBUG --- [http-nio-9000-exec-7] c.p.e.m.BoardMapper.selectBoardList : ==>  Preparing: SELECT b_id as bId, b_title as bTitle, b_content as bContent, b_writer as bWriter, b_datetime as bDatetime, b_brdhit as bBrdhit, b_order as bOrder, b_group as bGroup, b_depth as bDepth FROM lc_board ORDER BY bGroup DESC,bOrder ASC, bDepth ASC, bId DESC 
+18:40:26.714 DEBUG --- [http-nio-9000-exec-7] c.p.e.m.BoardMapper.selectBoardList : ==> Parameters:  
+18:40:26.716 TRACE --- [http-nio-9000-exec-7] c.p.e.m.BoardMapper.selectBoardList : <==    Columns: bId, bTitle, bContent, bWriter, bDatetime, bBrdhit, bOrder, bGroup, bDepth 
+18:40:26.717 TRACE --- [http-nio-9000-exec-7] c.p.e.m.BoardMapper.selectBoardList : <==        Row: 2, qqqq, <<BLOB>>, saram, 2022-05-11 09:57:52, 1, 0, 2, 0 
+18:40:26.718 TRACE --- [http-nio-9000-exec-7] c.p.e.m.BoardMapper.selectBoardList : <==        Row: 1, asdf, <<BLOB>>, admin, 2022-05-09 09:38:45, 3, 0, 1, 0 
+18:40:26.718 DEBUG --- [http-nio-9000-exec-7] c.p.e.m.BoardMapper.selectBoardList : <==      Total: 2 
+18:40:26.718 DEBUG --- [http-nio-9000-exec-7] c.p.e.controller.BoardController : debug 
+18:40:26.719 INFO  --- [http-nio-9000-exec-7] c.p.e.controller.BoardController : info 
+18:40:26.719 ERROR --- [http-nio-9000-exec-7] c.p.e.controller.BoardController : error 
+18:40:27.078 DEBUG --- [http-nio-9000-exec-6] c.p.e.mapper.UserMapper.readUser : ==>  Preparing: SELECT u_id as username, u_password as password, u_name as name, u_phone as phone, u_isAccountNonExpired as isAccountNonExpired, u_isAccountNonLocked as isAccountNonLocked, u_isCredentialNonExpired as isCredentialsNonExpired, u_isEnabled as isEnabled FROM lc_user WHERE 1=1 AND u_id = ? 
+18:40:27.078 DEBUG --- [http-nio-9000-exec-6] c.p.e.mapper.UserMapper.readUser : ==> Parameters: admin(String) 
+18:40:27.080 TRACE --- [http-nio-9000-exec-6] c.p.e.mapper.UserMapper.readUser : <==    Columns: username, password, name, phone, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled 
+18:40:27.081 TRACE --- [http-nio-9000-exec-6] c.p.e.mapper.UserMapper.readUser : <==        Row: admin, $2a$10$5uERQP9U555RPnVT/IfuJenzgDQqLnFS3iV.Cxmljjl6Rqyxjo.fC, admin, 01024653634, 1, 1, 1, 1 
+18:40:27.081 DEBUG --- [http-nio-9000-exec-6] c.p.e.mapper.UserMapper.readUser : <==      Total: 1 
+18:40:27.081 DEBUG --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.readAuthorities : ==>  Preparing: SELECT u_auth FROM lc_auth WHERE 1=1 AND u_id = ? 
+18:40:27.082 DEBUG --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.readAuthorities : ==> Parameters: admin(String) 
+18:40:27.082 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.readAuthorities : <==    Columns: u_auth 
+18:40:27.083 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.readAuthorities : <==        Row: ROLE_USER 
+18:40:27.083 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.readAuthorities : <==        Row: ROLE_ADMIN 
+18:40:27.083 DEBUG --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.readAuthorities : <==      Total: 2 
+18:40:27.090 INFO  --- [http-nio-9000-exec-6] c.p.e.controller.AdminController : SecurityContextHolderAwareRequestWrapper[ org.springframework.security.web.header.HeaderWriterFilter$HeaderWriterRequest@3d518709] 
+18:40:27.091 DEBUG --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : ==>  Preparing: SELECT ta.u_id username, ta.u_name name, ta.u_phone phone, tb.u_auth auth FROM lc_user ta LEFT join ( SELECT ta.u_id, GROUP_CONCAT(ta.u_auth SEPARATOR ",") u_auth FROM lc_auth ta GROUP BY ta.u_id ) tb ON ta.u_id = tb.u_id 
+18:40:27.091 DEBUG --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : ==> Parameters:  
+18:40:27.116 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==    Columns: username, name, phone, auth 
+18:40:27.116 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==        Row: admin, admin, 01024653634, <<BLOB>> 
+18:40:27.117 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==        Row: darius, 다리우스, 01020204982, <<BLOB>> 
+18:40:27.117 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==        Row: graves, 그레이브즈, 01030203020, <<BLOB>> 
+18:40:27.117 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==        Row: leesin, 리신, 01000000000, <<BLOB>> 
+18:40:27.117 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==        Row: saram, 엄준식, 01044444444, <<BLOB>> 
+18:40:27.117 TRACE --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==        Row: tontonjeong, 톤톤, 01012345678, <<BLOB>> 
+18:40:27.117 DEBUG --- [http-nio-9000-exec-6] c.p.e.m.UserMapper.read_user_list : <==      Total: 6 
+18:40:27.118 INFO  --- [http-nio-9000-exec-6] c.p.e.controller.AdminController : [UserInfo [username=admin, password=null, name=admin, phone=01024653634, authorities=[ROLE_USER, ROLE_ADMIN], auth=null], UserInfo [username=darius, password=null, name=다리우스, phone=01020204982, authorities=[ROLE_USER], auth=null], UserInfo [username=graves, password=null, name=그레이브즈, phone=01030203020, authorities=[ROLE_USER], auth=null], UserInfo [username=leesin, password=null, name=리신, phone=01000000000, authorities=[ROLE_USER], auth=null], UserInfo [username=saram, password=null, name=엄준식, phone=01044444444, authorities=[ROLE_USER], auth=null], UserInfo [username=tontonjeong, password=null, name=톤톤, phone=01012345678, authorities=[ROLE_USER], auth=null]] 
+18:43:23.729 INFO  --- [restartedMain] c.p.example.Project1Application : Starting Project1Application using Java 17.0.1 on DESKTOP-IAQU242 with PID 16328 (C:\Users\ruist\OneDrive\문서\GitHub\project1\bin\main started by ruist in C:\Users\ruist\OneDrive\문서\GitHub\project1) 
+18:43:23.729 DEBUG --- [restartedMain] c.p.example.Project1Application : Running with Spring Boot v2.6.7, Spring v5.3.19 
+18:43:23.729 INFO  --- [restartedMain] c.p.example.Project1Application : The following 1 profile is active: "local" 
+18:43:23.734 WARN  --- [restartedMain] o.s.b.c.c.ConfigDataEnvironment : Property 'spring.profiles[0]' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 10:5] 
+18:43:25.074 DEBUG --- [restartedMain] c.p.example.config.AuthTokenFilter : Filter 'authenticationJwtTokenFilter' configured for use 
+18:43:25.374 INFO  --- [restartedMain] c.p.example.Project1Application : Started Project1Application in 1.842 seconds (JVM running for 676.801) 
+18:43:54.779 INFO  --- [restartedMain] c.p.example.Project1Application : Starting Project1Application using Java 17.0.1 on DESKTOP-IAQU242 with PID 16328 (C:\Users\ruist\OneDrive\문서\GitHub\project1\bin\main started by ruist in C:\Users\ruist\OneDrive\문서\GitHub\project1) 
+18:43:54.779 DEBUG --- [restartedMain] c.p.example.Project1Application : Running with Spring Boot v2.6.7, Spring v5.3.19 
+18:43:54.779 INFO  --- [restartedMain] c.p.example.Project1Application : The following 1 profile is active: "local" 
+18:43:54.782 WARN  --- [restartedMain] o.s.b.c.c.ConfigDataEnvironment : Property 'spring.profiles[0]' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 10:5] 
+18:43:55.287 DEBUG --- [restartedMain] c.p.example.config.AuthTokenFilter : Filter 'authenticationJwtTokenFilter' configured for use 
+18:43:55.476 INFO  --- [restartedMain] c.p.example.Project1Application : Started Project1Application in 0.74 seconds (JVM running for 706.903) 
+22:28:04.438 ERROR --- [http-nio-9000-exec-2] c.p.e.config.AuthEntryPointJwt : Unauthorized error: Full authentication is required to access this resource 

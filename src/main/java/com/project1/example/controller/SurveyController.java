@@ -1,8 +1,9 @@
 package com.project1.example.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
+import java.util.List;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -11,35 +12,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project1.example.domain.Board;
+import com.project1.example.domain.Pagination;
+import com.project1.example.domain.Search;
+import com.project1.example.service.BoardService;
+import com.project1.example.service.CommentService;
+import com.project1.example.service.FileService;
 import com.project1.example.config.JwtUtils;
-import com.project1.example.domain.Answer;
-import com.project1.example.domain.Question;
-import com.project1.example.domain.Survey;
-import com.project1.example.service.SurveyService;
+import com.project1.example.domain.User;
 import com.project1.example.service.UserService;
 
-
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/api")
 public class SurveyController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	AuthenticationManager authenticationManager;
 	
@@ -51,17 +47,11 @@ public class SurveyController {
 	
 	@Autowired
 	UserService userService;
-	
 	@Autowired
 	SurveyService surveyService;
 	
-	@GetMapping("/surveylist")
-	public ResponseEntity<?> getSurveyList(HttpServletRequest request) {
-
-		List<Survey> list = surveyService.getsurveylist();
-		
-			return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+	@Autowired
+	ServletContext context;
 	
 	@PostMapping("/survey")
 	public ResponseEntity<?> writeSurvey(HttpServletRequest request, @Validated @RequestBody Survey survey ) {
@@ -90,6 +80,7 @@ public class SurveyController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
+<<<<<<< HEAD
 	
 	@GetMapping("/survey")
 	public ResponseEntity<?> getSurveyDetail(@Validated int sId) {
@@ -114,4 +105,6 @@ public class SurveyController {
 	}
 	
 	
+=======
+>>>>>>> 9bf10372e3161f9773e7a4fe3c69c0530787f956
 }
