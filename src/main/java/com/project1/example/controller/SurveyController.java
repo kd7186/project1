@@ -17,17 +17,22 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project1.example.domain.Answer;
 import com.project1.example.domain.Board;
 import com.project1.example.domain.Pagination;
+import com.project1.example.domain.Question;
 import com.project1.example.domain.Search;
+import com.project1.example.domain.Survey;
 import com.project1.example.service.BoardService;
 import com.project1.example.service.CommentService;
 import com.project1.example.service.FileService;
+import com.project1.example.service.SurveyService;
 import com.project1.example.config.JwtUtils;
 import com.project1.example.domain.User;
 import com.project1.example.service.UserService;
@@ -80,8 +85,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
-<<<<<<< HEAD
-	
+
 	@GetMapping("/survey")
 	public ResponseEntity<?> getSurveyDetail(@Validated int sId) {
 		
@@ -103,8 +107,4 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 		return new ResponseEntity<>(surveyDetail, HttpStatus.OK);
 	}
-	
-	
-=======
->>>>>>> 9bf10372e3161f9773e7a4fe3c69c0530787f956
 }

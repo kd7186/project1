@@ -6,11 +6,11 @@ public class Survey {
 	private String sTitle;
 	private String sDescription;
 	private	List<Question> questions;
-	private int s_num;
-	private String writer;
-	private String datetime;
-	private int hit;
+	private int sId;
+	private String sWriter;
+	private String sDatetime;
 	private int rownum;
+	
 	public String getsTitle() {
 		return sTitle;
 	}
@@ -29,34 +29,23 @@ public class Survey {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
-	public int getS_num() {
-		return s_num;
+	public int getsId() {
+		return sId;
 	}
-	public void setS_num(int s_num) {
-		this.s_num = s_num;
+	public void setsId(int sId) {
+		this.sId = sId;
 	}
-	public String getWriter() {
-		return writer;
+	public String getsWriter() {
+		return sWriter;
 	}
-<<<<<<< HEAD
 	public void setsWriter(String sWriter) {
 		this.sWriter = sWriter;
-=======
-	public void setWriter(String writer) {
-		this.writer = writer;
->>>>>>> 9bf10372e3161f9773e7a4fe3c69c0530787f956
 	}
-	public String getDatetime() {
-		return datetime;
+	public String getsDatetime() {
+		return sDatetime;
 	}
-	public void setDatetime(String datetime) {
-		this.datetime = datetime;
-	}
-	public int getHit() {
-		return hit;
-	}
-	public void setHit(int hit) {
-		this.hit = hit;
+	public void setsDatetime(String sDatetime) {
+		this.sDatetime = sDatetime;
 	}
 	public int getRownum() {
 		return rownum;
@@ -66,4 +55,4 @@ public class Survey {
 	}
 
 }
-}
+

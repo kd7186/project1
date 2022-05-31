@@ -255,6 +255,7 @@ export default new Vuex.Store({
         })
     })
   },
+<<<<<<< HEAD
   CreateSurvey({ state, commit }) {
     return new Promise((resolve, reject) => {
       console.log(state.Survey)
@@ -283,11 +284,14 @@ export default new Vuex.Store({
     })
   },
 =======
+=======
+>>>>>>> parent of 41b30b17 (tuesday)
 /* axios.post('http://localhost:9000/api/writeaction', formData, {
           headers: {
             "Content-Type": "multipart/form-data; boundary = " + new Date().getTime()
           }
       }) */
+<<<<<<< HEAD
       getSurveyList({ commit }) {
         return new Promise((resolve, reject) => {
           axios.get('http://localhost:9000/api/surveylist')
@@ -315,6 +319,8 @@ export default new Vuex.Store({
         })
       },
 >>>>>>> 9bf10372e3161f9773e7a4fe3c69c0530787f956
+=======
+>>>>>>> parent of 41b30b17 (tuesday)
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`

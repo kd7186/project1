@@ -10,8 +10,7 @@ import board from '../views/board.vue'
 import write from '../views/write.vue'
 import article from '../views/article.vue'
 import SurveyList from '../views/SurveyList.vue'
-import WriteSurvey from '../views/WriteSurvey.vue'
-import SurveyDetail from '../views/SurveyDetail.vue'
+import surveywrite from '../views/surveywrite.vue'
 
 Vue.use(VueRouter)
 
@@ -57,19 +56,14 @@ const routes = [
     component:write,
   },
   {
-    path: '/writesurvey',
-    name: 'WriteSurvey',
-    component: WriteSurvey,
+    path: '/surveywrite',
+    name: 'surveywrite',
+    component:surveywrite,
   },
   {path: '/article/:bId',
    name:'article',
    component:article
-  },
-  {
-    path: '/surveydetail/:sId',
-    name: 'SurveyDetail',
-    component: SurveyDetail
-  },
+  }
 ]
 const router = new VueRouter({
   mode: 'history',

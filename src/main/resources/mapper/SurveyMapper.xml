@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project1.example.mapper.SurveyMapper">
-
 	<select id="getsurveylist" resultType="Survey">
 			SELECT s_idx as sId,
 					                 s_title as sTitle,
@@ -12,13 +11,6 @@
 					                 s_datetime as sDatetime
 		      FROM            lc_survey
 			  ORDER BY  sId DESC
-		<!--  SELECT * FROM
-						(select @rownum := @rownum-1 as rownum,
-					ta.*
-		FROM 				
-						lc_survey ta, 
-					 (select @rownum := (select COUNT(*)+1 from lc_survey ta)) tb 
-		ORDER BY 	s_datetime desc)a  -->
 	</select>
 	
 	<insert id="insertSurvey" parameterType="Survey">
@@ -40,7 +32,7 @@
 					q
 					)
 		VALUES (
-				(select s_idx FROM lc_survey ORDER BY 	 s_idx DESC  LIMIT 1),
+				select s_idx FROM lc_survey ORDER BY 	 s_idx DESC  LIMIT 1),
 				#{t},
 				#{q}
 				)
@@ -48,7 +40,7 @@
 	<insert id="insertAnswers" parameterType="Answer">  
 	        INSERT INTO	lc_answer (
 	        	a,
-	        	q_idx
+	   			q_idx
 	      ) VALUES 
 	      		(#{answer},
 	      		(select q_idx FROM lc_question ORDER BY  q_idx DESC  LIMIT 1)
