@@ -269,11 +269,33 @@ export default new Vuex.Store({
         })
     })
   },
-/* axios.post('http://localhost:9000/api/writeaction', formData, {
-          headers: {
-            "Content-Type": "multipart/form-data; boundary = " + new Date().getTime()
-          }
-      }) */
+  CreateSurvey({ state, commit }) {
+    return new Promise((resolve, reject) => {
+      console.log(state.Survey)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
+      axios.post('http://localhost:9000/api/survey', state.Survey)
+        .then(Response => {
+          commit('GET_SURVEYLIST', Response.data)
+          Route.push("/surveylist")
+        })
+        .catch(Error => {
+          reject(Error)
+          console.log('CreateSurvey_error')
+        })
+    })
+  },
+  getSurveyDetail({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:9000/api/survey', { params: { sId: payload } })
+        .then(Response => {
+          commit('GET_SURVEYDETAIL', Response.data)
+          Route.push('/surveydetail')
+        })
+        .catch(Error => {
+          console.log('getSurveyDetail_error')
+        })
+    })
+  },
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`

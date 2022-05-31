@@ -6,16 +6,14 @@
 	<td width="510px" style="color:white">제목</td>
 	<td width="120px" style="color:white">작성자</td>
 	<td width="120px" style="color:white">날짜</td>
-	<td width="50px" style="color:white">결과</td>
 	</tr>
 			<tr v-for="(item, i) in SurveyList" :key="i">
 			<td>{{item.sId}}</td>
 			<td>
-				<router-link :to="{name:'surveydetail', params:{ sId : item.sId }}">{{item.sTitle}}</router-link>
+				<router-link :to="{name:'SurveyDetail', params:{ sId : item.sId }}">{{item.sTitle}}</router-link>
 			</td>
 			<td>{{item.sWriter}}</td>
 			<td>{{item.sDatetime}}</td>
-			<td></td>
 			</tr>
 	</table>
 	<div style="text-align: center;">
@@ -25,7 +23,7 @@
     			</select>
     			<input name="search" type="text" class="form-control" size="20" placeholder="검색어를 입력하세요.">
     			<input type="submit" value="찾기">
-            <router-link :to="{name:'surveywrite'}">설문지 작성</router-link>
+            <router-link :to="{name:'WriteSurvey'}">설문지 작성</router-link>
 	</div>
 </div>
 </template>

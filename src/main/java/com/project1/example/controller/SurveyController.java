@@ -74,7 +74,7 @@ public class SurveyController {
 		}
 		String username = jwtUtils.getUserEmailFromToken(token);
 		
-		survey.setWriter(username);
+		survey.setsWriter(username);
 		surveyService.insertSurvey(survey);
 		for(Question q : survey.getQuestions()) {
 			surveyService.insertQuestions(q);
@@ -90,5 +90,28 @@ public class SurveyController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/survey")
+	public ResponseEntity<?> getSurveyDetail(@Validated int sId) {
+		
+		Survey survey = surveyService.getSurveyDetail(sId);
+		List<Question> questions = surveyService.getQuestionDetail(sId);
+		for(Question q : questions) {
+			int qId = q.getqId();
+			List<Answer> answers = surveyService.getAnswerDetail(qId);
+			q.setAnswers(answers);
+		}
+		
+		Survey surveyDetail = new Survey();
+		surveyDetail.setsId(survey.getsId());
+		surveyDetail.setsTitle(survey.getsTitle());
+		surveyDetail.setsDescription(survey.getsDescription());
+		surveyDetail.setsWriter(survey.getsWriter());
+		surveyDetail.setsDatetime(survey.getsDatetime());
+		surveyDetail.setQuestions(questions);
+
+		return new ResponseEntity<>(surveyDetail, HttpStatus.OK);
+	}
+	
 	
 }

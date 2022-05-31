@@ -5,46 +5,53 @@
 <mapper namespace="com.project1.example.mapper.SurveyMapper">
 
 	<select id="getsurveylist" resultType="Survey">
-		SELECT * FROM
+			SELECT s_idx as sId,
+					                 s_title as sTitle,
+					                 s_description as sDescription,
+					                 s_writer as sWriter,
+					                 s_datetime as sDatetime
+		      FROM            lc_survey
+			  ORDER BY  sId DESC
+		<!--  SELECT * FROM
 						(select @rownum := @rownum-1 as rownum,
 					ta.*
 		FROM 				
 						lc_survey ta, 
 					 (select @rownum := (select COUNT(*)+1 from lc_survey ta)) tb 
-		ORDER BY 	s_datetime desc)a
+		ORDER BY 	s_datetime desc)a  -->
 	</select>
 	
 	<insert id="insertSurvey" parameterType="Survey">
-		INSERT INTO survey(
-					title,
-					disc,
-					writer
+		INSERT INTO lc_survey(
+					s_title,
+					s_description,
+					s_writer
 					)
 		VALUES (
-				#{title},
-				#{disc},
-				#{writer}
+				#{sTitle},
+				#{sDescription},
+				#{sWriter}
 				)
 	</insert>
 	<insert id="insertQuestions" parameterType="Question">
-		INSERT INTO question(
-					s_num,
+		INSERT INTO lc_question(
+					s_idx,
 					t,
 					q
 					)
 		VALUES (
-				(select s_num FROM survey ORDER BY 	 s_num DESC  LIMIT 1),
+				(select s_idx FROM lc_survey ORDER BY 	 s_idx DESC  LIMIT 1),
 				#{t},
 				#{q}
 				)
 	</insert>
 	<insert id="insertAnswers" parameterType="Answer">  
-	        INSERT INTO	answer (
+	        INSERT INTO	lc_answer (
 	        	a,
-	        	q_num
+	        	q_idx
 	      ) VALUES 
 	      		(#{answer},
-	      		(select q_num FROM question ORDER BY  q_num DESC  LIMIT 1)
+	      		(select q_idx FROM lc_question ORDER BY  q_idx DESC  LIMIT 1)
 	      		)
 	</insert>
 	

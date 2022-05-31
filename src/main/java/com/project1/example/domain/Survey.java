@@ -38,7 +38,7 @@ public class Survey {
 	public String getsWriter() {
 		return sWriter;
 	}
-	public void setWriter(String sWriter) {
+	public void setsWriter(String sWriter) {
 		this.sWriter = sWriter;
 	}
 	public String getsDatetime() {
