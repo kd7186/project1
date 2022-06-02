@@ -1,38 +1,58 @@
 <template>
-    <div class="controller">
-	<table>
-	<tr style="background-color : #000000">
-	<td width="40px" style="color:white">#</td>
-	<td width="510px" style="color:white">제목</td>
-	<td width="120px" style="color:white">작성자</td>
-	<td width="120px" style="color:white">날짜</td>
-	<td width="50px" style="color:white">결과</td>
-	</tr>
-			<tr v-for="(item, i) in SurveyList" :key="i">
-			<td>{{item.sId}}</td>
-			<td>
-				<router-link :to="{name:'surveydetail', params:{ sId : item.sId }}">{{item.sTitle}}</router-link>
-			</td>
-			<td>{{item.sWriter}}</td>
-			<td>{{item.sDatetime}}</td>
-			<td></td>
-			</tr>
-	</table>
-	<div style="text-align: center;">
-    			<select name="find">
-        			<option value="sWriter">작성자</option>
-        			<option value="sTitle">제목</option>
-    			</select>
-    			<input name="search" type="text" class="form-control" size="20" placeholder="검색어를 입력하세요.">
-    			<input type="submit" value="찾기">
-            <router-link :to="{name:'surveywrite'}">설문지 작성</router-link>
-	</div>
-</div>
+  <div style="width: 100%">
+    <v-card>
+      <v-card-title>
+        설문 목록
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        v-model="selected"
+        :single-select="singleSelect"
+        show-select
+        item-key="sId"
+        :headers="headers"
+        :items="SurveyList"
+        :search="search"
+        @click:row="surveyDetail"
+      ></v-data-table>
+    </v-card>
+	<v-col cols="12" align="right">
+      <v-btn depressed router :to="{ name: 'WriteSurvey' }"
+        >Create a Survey</v-btn
+      >
+    </v-col>
+  </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex"
 
 export default {
+	data() {
+    return {
+      singleSelect: false,
+      selected: [],
+      search: "",
+      headers: [
+        {
+          text: "#",
+          align: "start",
+          sortable: false,
+          value: "rownum",
+        },
+        { text: "제목", value: "sTitle" },
+        { text: "작성자", value: "sWriter" },
+        { text: "날짜", value: "sDatetime" },
+        { text: "sId", value: "sId", align: " d-none" },
+      ],
+    };
+  },
 	created() {
 		this.$store.dispatch('getSurveyList')
 	},
@@ -40,11 +60,11 @@ export default {
 		...mapState(["SurveyList"])
 	},
 	methods: {
-    article: function (sId) {
-      this.$router.push({name: '/surveydetail', params: {sId: sId}})
-   		}	
-	},
-	props: ['sId']
+    ...mapActions(["getSurveyDetail"]),
+    surveyDetail(row) {
+      this.getSurveyDetail(row.sId);
+    },
+	}
 }
 </script>
 <style scoped>

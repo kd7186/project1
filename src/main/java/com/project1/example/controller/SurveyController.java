@@ -3,6 +3,7 @@ package com.project1.example.controller;
 
 import java.util.List;
 
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,6 +38,9 @@ import com.project1.example.config.JwtUtils;
 import com.project1.example.domain.User;
 import com.project1.example.service.UserService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api")
 public class SurveyController {
 
 private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -57,6 +61,14 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	ServletContext context;
+	
+	@GetMapping("/surveylist")
+	public ResponseEntity<?> getSurveyList(HttpServletRequest request) {
+
+		List<Survey> list = surveyService.getsurveylist();
+		
+			return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 	@PostMapping("/survey")
 	public ResponseEntity<?> writeSurvey(HttpServletRequest request, @Validated @RequestBody Survey survey ) {
@@ -87,9 +99,9 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	@GetMapping("/survey")
-	public ResponseEntity<?> getSurveyDetail(@Validated int sId) {
+	public ResponseEntity<?> getSurveyDetail(@Validated int sId, Survey survey) {
 		
-		Survey survey = surveyService.getSurveyDetail(sId);
+		Survey surveyDetail = surveyService.getSurveyDetail(survey.getsId());
 		List<Question> questions = surveyService.getQuestionDetail(sId);
 		for(Question q : questions) {
 			int qId = q.getqId();
@@ -97,13 +109,13 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			q.setAnswers(answers);
 		}
 		
-		Survey surveyDetail = new Survey();
+		/* Survey surveyDetail = new Survey();
 		surveyDetail.setsId(survey.getsId());
 		surveyDetail.setsTitle(survey.getsTitle());
 		surveyDetail.setsDescription(survey.getsDescription());
 		surveyDetail.setsWriter(survey.getsWriter());
 		surveyDetail.setsDatetime(survey.getsDatetime());
-		surveyDetail.setQuestions(questions);
+		surveyDetail.setQuestions(questions); */
 
 		return new ResponseEntity<>(surveyDetail, HttpStatus.OK);
 	}

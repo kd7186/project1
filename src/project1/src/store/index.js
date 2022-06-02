@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Route from '../router/index'
 import axios from 'axios'
-import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -45,9 +44,6 @@ export default new Vuex.Store({
       state.article = data
       console.log(state.article)
     },
-    READ_SURVEY_LIST(state,data) {
-      state.surveylist = data
-    },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
   },
@@ -65,6 +61,9 @@ export default new Vuex.Store({
    localStorage.removeItem("token")
    console.log(state.Userinfo)
    console.log("Logout"+localStorage.getItem("token"))
+  },
+  GET_SURVEYLIST(state, data) {
+    state.SurveyList = data
   },
   updateAnswer(state, data) {
     state.Survey.questions[data.qindex].answers[data.index].answer = data.value
@@ -84,8 +83,8 @@ export default new Vuex.Store({
   GET_SURVEYDETAIL(state, data) {
     state.SurveyDetail = data
   },
-  update_S_num(state, data) {
-    state.Answers.s_num = data
+  update_sId(state, data) {
+    state.Answers.sId = data
   },
   update_SingleAnswer(state, data) {
     state.Answers.questions[data.index].answers[0] = data.value
@@ -94,7 +93,7 @@ export default new Vuex.Store({
     state.Answers.questions[data.index].answers = data.value
   },
   GET_SURVEYRESULTS(state, data) {
-    state.Response.s_num = data.s_num
+    state.Response.sId = data.sId
     state.Response.questions = data.questions
   }
  },
@@ -161,19 +160,6 @@ export default new Vuex.Store({
           console.log('error')
           reject(Error)
         })
-    })
-  },
-  Survey({commit},payload) {
-    return new Promise((resolve,reject) => {
-      axios.get('https://localhost:9000/api/survey', payload)
-      .then(Response => {
-        console.log(Response.data)
-        commit('READ_SURVEY_LIST', Response.data)
-      })
-      .catch(Error=> {
-        console.log('error')
-        reject(Error)
-      })
     })
   },
   article({commit},payload) {
@@ -243,10 +229,9 @@ export default new Vuex.Store({
         })
     })
   },
-<<<<<<< HEAD
-  getSurveyList({ commit }) {
+  getSurveyList({ commit },payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:9000/api/surveylist')
+      axios.get('http://localhost:9000/api/surveylist',payload)
         .then(Response => {
           commit('GET_SURVEYLIST', Response.data)
         })
@@ -255,7 +240,6 @@ export default new Vuex.Store({
         })
     })
   },
-<<<<<<< HEAD
   CreateSurvey({ state, commit }) {
     return new Promise((resolve, reject) => {
       console.log(state.Survey)
@@ -283,44 +267,6 @@ export default new Vuex.Store({
         })
     })
   },
-=======
-=======
->>>>>>> parent of 41b30b17 (tuesday)
-/* axios.post('http://localhost:9000/api/writeaction', formData, {
-          headers: {
-            "Content-Type": "multipart/form-data; boundary = " + new Date().getTime()
-          }
-      }) */
-<<<<<<< HEAD
-      getSurveyList({ commit }) {
-        return new Promise((resolve, reject) => {
-          axios.get('http://localhost:9000/api/surveylist')
-            .then(Response => {
-              commit('GET_SURVEYLIST', Response.data)
-            })
-            .catch(Error => {
-              console.log('getSurveyList_error')
-            })
-        })
-      },
-      CreateSurvey({ state, commit }) {
-        return new Promise((resolve, reject) => {
-          console.log(state.Survey)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
-          axios.post('http://localhost:9000/api/survey', state.Survey)
-            .then(Response => {
-              commit('GET_SURVEYLIST', Response.data)
-              Route.push("/surveylist")
-            })
-            .catch(Error => {
-              reject(Error)
-              console.log('CreateSurvey_error')
-            })
-        })
-      },
->>>>>>> 9bf10372e3161f9773e7a4fe3c69c0530787f956
-=======
->>>>>>> parent of 41b30b17 (tuesday)
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
