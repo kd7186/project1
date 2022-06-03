@@ -25,7 +25,7 @@
     </v-card>
 	<v-col cols="12" align="right">
       <v-btn depressed router :to="{ name: 'WriteSurvey' }"
-        >Create a Survey</v-btn
+        >설문지 작성</v-btn
       >
     </v-col>
   </div>
@@ -44,7 +44,7 @@ export default {
           text: "#",
           align: "start",
           sortable: false,
-          value: "rownum",
+          value: "sId",
         },
         { text: "제목", value: "sTitle" },
         { text: "작성자", value: "sWriter" },

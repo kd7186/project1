@@ -28,7 +28,9 @@ import com.project1.example.domain.Answer;
 import com.project1.example.domain.Board;
 import com.project1.example.domain.Pagination;
 import com.project1.example.domain.Question;
+import com.project1.example.domain.Response;
 import com.project1.example.domain.Search;
+import com.project1.example.domain.Submission;
 import com.project1.example.domain.Survey;
 import com.project1.example.service.BoardService;
 import com.project1.example.service.CommentService;
@@ -36,6 +38,7 @@ import com.project1.example.service.FileService;
 import com.project1.example.service.SurveyService;
 import com.project1.example.config.JwtUtils;
 import com.project1.example.domain.User;
+import com.project1.example.response.StatisticsResponse;
 import com.project1.example.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -99,9 +102,9 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	@GetMapping("/survey")
-	public ResponseEntity<?> getSurveyDetail(@Validated int sId, Survey survey) {
+	public ResponseEntity<?> getSurveyDetail(@Validated int sId) {
 		
-		Survey surveyDetail = surveyService.getSurveyDetail(survey.getsId());
+		Survey survey = surveyService.getSurveyDetail(sId);
 		List<Question> questions = surveyService.getQuestionDetail(sId);
 		for(Question q : questions) {
 			int qId = q.getqId();
@@ -109,14 +112,51 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			q.setAnswers(answers);
 		}
 		
-		/* Survey surveyDetail = new Survey();
+		Survey surveyDetail = new Survey();
 		surveyDetail.setsId(survey.getsId());
 		surveyDetail.setsTitle(survey.getsTitle());
 		surveyDetail.setsDescription(survey.getsDescription());
 		surveyDetail.setsWriter(survey.getsWriter());
 		surveyDetail.setsDatetime(survey.getsDatetime());
-		surveyDetail.setQuestions(questions); */
+		surveyDetail.setQuestions(questions);
 
 		return new ResponseEntity<>(surveyDetail, HttpStatus.OK);
+	}
+	
+	@PostMapping("/survey-answers")
+	public ResponseEntity<?> submitSurveyAnswers(@Validated @RequestBody Submission submission ) {
+		
+
+		surveyService.insertSubmission(submission);
+		for(Response r : submission.getQuestions()) {
+			surveyService.insertResponse(r);
+			for(String a: r.getAnswers()) {
+				if(a != null)
+					surveyService.insertReAnswer(a, submission.getsId(), r.getqId());
+			}
+		}
+		
+			
+		return new ResponseEntity<>("ok", HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/survey-answers")
+	public ResponseEntity<?> getSurveyAnswers(@Validated int sId ) {
+		
+
+		StatisticsResponse result = new StatisticsResponse();
+		result.setsId(sId);
+		List<Question> q_ = surveyService.getResultQuestion(sId);
+		for(Question q : q_) {
+			List<String> a = surveyService.getResultAnswers(sId, q.getqId());
+			List<Integer> aCount = surveyService.getResultAnswersCount(sId, q.getqId());
+			q.setResultAnswers(a);
+			q.setResultCount(aCount);
+		}
+		result.setQuestions(q_);
+			
+		return new ResponseEntity<>(result, HttpStatus.OK);
+		
 	}
 }

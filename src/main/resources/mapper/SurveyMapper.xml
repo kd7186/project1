@@ -12,12 +12,18 @@
 	</select>
 	
 	<insert id="insertSurvey" parameterType="Survey">
+	<selectKey keyProperty="getNext" resultType="int" order="BEFORE">
+	  	SELECT MAX(s_idx)+1 s_idx
+		FROM lc_survey
+	</selectKey>
 		INSERT INTO lc_survey(
+					s_idx,
 					s_title,
 					s_description,
 					s_writer
 					)
 		VALUES (
+		       #{getNext},
 				#{sTitle},
 				#{sDescription},
 				#{sWriter}
@@ -30,7 +36,7 @@
 					q
 					)
 		VALUES (
-				select s_idx FROM lc_survey ORDER BY 	 s_idx DESC  LIMIT 1),
+				(select s_idx FROM lc_survey ORDER BY s_idx DESC  LIMIT 1),
 				#{t},
 				#{q}
 				)
@@ -46,10 +52,21 @@
 	</insert>
 	
 	<select id="getSurveyDetail" parameterType="Integer" resultType="Survey">
-		SELECT * FROM lc_survey WHERE s_idx = #{sId}
+		SELECT 					     s_idx as sId,
+					                 s_title as sTitle,
+					                 s_description as sDescription,
+					                 s_writer as sWriter,
+					                 s_datetime as sDatetime
+		      FROM lc_survey WHERE s_idx = #{sId}
 	</select>
 	<select id="getQuestionDetail" parameterType="Integer" resultType="Question">
-		SELECT * FROM lc_question WHERE s_idx = #{sId}
+		SELECT q_idx as qId,
+			   s_idx as sId,
+			   q as q,
+			   t as t
+		
+		
+		FROM lc_question WHERE s_idx = #{sId}
 	</select>
 	<select id="getAnswerDetail" parameterType="Integer" resultType="Answer">
 		SELECT a as answer, q_idx, a_idx FROM lc_answer WHERE q_idx = #{qId}
@@ -57,73 +74,73 @@
 	
 	<insert id="insertSubmission" parameterType="Submission">
 		INSERT INTO vue_submission(
-					s_num
+					s_idx
 		) VALUES (
-				#{s_num}
+				#{sId}
 				)
 	</insert>
 	<insert id="insertResponse" parameterType="Response">
 		INSERT INTO vue_response(
-					sub_num,
-					q_num,
+					sub_idx,
+					q_idx,
 					t
 		) VALUES (
-				(select sub_num FROM vue_submission ORDER BY 	 sub_num DESC  LIMIT 1),
-				#{q_num},
+				(select sub_idx FROM vue_submission ORDER BY 	 sub_idx DESC  LIMIT 1),
+				#{q_idx},
 				#{t}
 				)
 	</insert>
 	<insert id="insertReAnswer" parameterType="map">
 		INSERT INTO vue_reanswers(
-					s_num,
-					q_num,
-					r_num,
+					s_idx,
+					q_idx,
+					r_idx,
 					a
 		) VALUES (
-				#{s_num},
-				#{q_num},
-				(select r_num FROM vue_response ORDER BY 	 r_num DESC  LIMIT 1),
+				#{s_idx},
+				#{q_idx},
+				(select r_idx FROM vue_response ORDER BY 	 r_idx DESC  LIMIT 1),
 				#{a}
 				)
 	</insert>
 	
 	<select id="getResultQuestion" parameterType="Integer" resultType="Question">
-		SELECT q_num, t, q  FROM question WHERE s_num = #{s_num}
+		SELECT q_idx, t, q  FROM lc_question WHERE s_idx = #{sId}
 	</select>
 	
 	<select id="getResultAnswers" parameterType="map" resultType="String">
-		SELECT a FROM vue_reanswers WHERE s_num = #{s_num} AND q_num = #{q_num}  GROUP BY a
+		SELECT a FROM vue_reanswers WHERE s_idx = #{sId} AND q_idx = #{qId}  GROUP BY a
 	</select>
 	<select id="getResultAnswersCount" parameterType="map" resultType="Integer">
-		SELECT COUNT(a) AS aCount FROM vue_reanswers WHERE s_num = #{s_num} AND q_num = #{q_num}  GROUP BY a
+		SELECT COUNT(a) AS aCount FROM vue_reanswers WHERE s_num = #{sId} AND q_idx = #{qId}  GROUP BY a
 	</select>
 	
 	<select id="getQ_num" parameterType="Integer" resultType="Integer">
-		SELECT q_num FROM question WHERE s_num = #{s_num}
+		SELECT q_idx FROM lc_question WHERE s_idx = #{sId}
 	</select>
 	
 	<select id="getSub_num" parameterType="Integer" resultType="Integer">
-		SELECT sub_num FROM vue_submission WHERE s_num = #{s_num}
+		SELECT sub_idx FROM vue_submission WHERE s_idx = #{sId}
 	</select>
 	
 	<delete id="deleteSurvey" parameterType="Integer">
-		DELETE FROM survey WHERE s_num = #{s_num}
+		DELETE FROM lc_survey WHERE s_idx = #{sId}
 	</delete>
 	
 	<delete id="deleteAnswers" parameterType="Integer">
-		DELETE FROM answer WHERE q_num = #{q}
+		DELETE FROM lc_answer WHERE q_idx = #{qId}
 	</delete>
 	
 	<delete id="deleteQuestions" parameterType="Integer">
-		DELETE FROM question WHERE s_num = #{s_num}
+		DELETE FROM lc_question WHERE s_idx = #{sId}
 	</delete>
 
 	<delete id="deleteReAnswers" parameterType="Integer">
-		DELETE FROM vue_reanswers WHERE s_num = #{s_num}
+		DELETE FROM vue_reanswers WHERE s_idx = #{sId}
 	</delete>
 
 	<delete id="deleteSubmission" parameterType="Integer">
-		DELETE FROM vue_submission WHERE s_num = #{s_num}
+		DELETE FROM vue_submission WHERE sId = #{sId}
 	</delete>
 
 	<delete id="deleteResponse" parameterType="Integer">

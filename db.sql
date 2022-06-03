@@ -16,6 +16,33 @@
 CREATE DATABASE IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `test`;
 
+-- 테이블 test.lc_answer 구조 내보내기
+CREATE TABLE IF NOT EXISTS `lc_answer` (
+  `a_idx` int(11) NOT NULL AUTO_INCREMENT,
+  `q_idx` int(11) DEFAULT NULL,
+  `a` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`a_idx`),
+  KEY `q_idx` (`q_idx`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.lc_answer:~9 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `lc_answer` DISABLE KEYS */;
+INSERT INTO `lc_answer` (`a_idx`, `q_idx`, `a`) VALUES
+	(1, 4, '다리우스'),
+	(2, 4, '가렌'),
+	(3, 4, '이렐리아'),
+	(4, 5, '리 신'),
+	(5, 5, '니달리'),
+	(6, 5, '엘리스'),
+	(7, 6, '빅토르'),
+	(8, 6, '아리'),
+	(9, 6, '카타리나'),
+	(10, 9, '부대찌개'),
+	(11, 9, '닭갈비'),
+	(12, 10, '초밥'),
+	(13, 10, '돈가스');
+/*!40000 ALTER TABLE `lc_answer` ENABLE KEYS */;
+
 -- 테이블 test.lc_auth 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lc_auth` (
   `u_id` varchar(50) DEFAULT NULL,
@@ -48,13 +75,18 @@ CREATE TABLE IF NOT EXISTS `lc_board` (
   `b_order` int(11) DEFAULT NULL,
   `b_depth` int(11) DEFAULT NULL,
   PRIMARY KEY (`b_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 test.lc_board:~2 rows (대략적) 내보내기
+-- 테이블 데이터 test.lc_board:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `lc_board` DISABLE KEYS */;
 INSERT INTO `lc_board` (`b_id`, `b_title`, `b_content`, `b_writer`, `b_datetime`, `b_brdhit`, `b_group`, `b_order`, `b_depth`) VALUES
-	(1, 'asdf', 'wwwwwwwww', 'admin', '2022-05-09 09:38:45', 3, 1, 0, 0),
-	(2, 'qqqq', 'sdqwewqrewqe', 'saram', '2022-05-11 09:57:52', 1, 2, 0, 0);
+	(1, 'asdf', 'wwwwwwwww', 'admin', '2022-05-09 09:38:45', 8, 1, 1, 0),
+	(2, 'qqqq', 'sdqwewqrewqe', 'saram', '2022-05-11 09:57:52', 18, 2, 1, 0),
+	(3, 'asdasdssaf', 'ggywqtsacfdfd', 'admin', '2022-05-24 09:59:34', 3, 3, 1, 0),
+	(4, 'qfdfafewrewtqewtqwerwer', 'wqeqweeqwr', 'admin', '2022-05-24 10:12:17', 1, 4, 1, 0),
+	(5, 'qfdfafewrewtqewtqwerwer', 'wqeqweeqwr', 'admin', '2022-05-24 10:12:24', 2, 5, 1, 0),
+	(6, NULL, NULL, 'admin', '2022-05-24 10:12:26', 1, 6, 1, 0),
+	(7, NULL, NULL, 'admin', '2022-05-24 10:14:29', 1, 7, 1, 0);
 /*!40000 ALTER TABLE `lc_board` ENABLE KEYS */;
 
 -- 테이블 test.lc_comment 구조 내보내기
@@ -88,6 +120,62 @@ CREATE TABLE IF NOT EXISTS `lc_file` (
 -- 테이블 데이터 test.lc_file:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `lc_file` DISABLE KEYS */;
 /*!40000 ALTER TABLE `lc_file` ENABLE KEYS */;
+
+-- 테이블 test.lc_item 구조 내보내기
+CREATE TABLE IF NOT EXISTS `lc_item` (
+  `i_idx` int(11) NOT NULL AUTO_INCREMENT,
+  `q_idx` int(11) DEFAULT NULL,
+  `i_item` varchar(50) DEFAULT NULL,
+  `s_idx` int(11) DEFAULT NULL,
+  PRIMARY KEY (`i_idx`),
+  KEY `q_idx` (`q_idx`),
+  KEY `s_idx` (`s_idx`),
+  CONSTRAINT `FK_lc_item_lc_question_2` FOREIGN KEY (`s_idx`) REFERENCES `lc_question` (`s_idx`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.lc_item:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `lc_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `lc_item` ENABLE KEYS */;
+
+-- 테이블 test.lc_question 구조 내보내기
+CREATE TABLE IF NOT EXISTS `lc_question` (
+  `q_idx` int(11) NOT NULL AUTO_INCREMENT,
+  `s_idx` int(11) NOT NULL,
+  `q` mediumtext DEFAULT NULL,
+  `t` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`q_idx`),
+  KEY `s_idx` (`s_idx`),
+  CONSTRAINT `FK_lc_question_lc_survey` FOREIGN KEY (`s_idx`) REFERENCES `lc_survey` (`s_idx`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.lc_question:~5 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `lc_question` DISABLE KEYS */;
+INSERT INTO `lc_question` (`q_idx`, `s_idx`, `q`, `t`) VALUES
+	(4, 1, '탑', 'RadioQ'),
+	(5, 1, '정글', 'CheckQ'),
+	(6, 1, '미드', 'DropQ'),
+	(7, 1, '원딜', 'ShortQ'),
+	(8, 1, '서폿', 'LongQ'),
+	(9, 2, '한식', 'RadioQ'),
+	(10, 2, '일식', 'CheckQ');
+/*!40000 ALTER TABLE `lc_question` ENABLE KEYS */;
+
+-- 테이블 test.lc_survey 구조 내보내기
+CREATE TABLE IF NOT EXISTS `lc_survey` (
+  `s_idx` int(11) NOT NULL AUTO_INCREMENT,
+  `s_title` varchar(50) DEFAULT NULL,
+  `s_writer` varchar(50) DEFAULT NULL,
+  `s_description` longtext DEFAULT NULL,
+  `s_datetime` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`s_idx`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.lc_survey:~1 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `lc_survey` DISABLE KEYS */;
+INSERT INTO `lc_survey` (`s_idx`, `s_title`, `s_writer`, `s_description`, `s_datetime`) VALUES
+	(1, '좋아하는 라인별 챔프', 'admin', '티모충 유미충 꺼져', '2022-05-31 10:11:39'),
+	(2, '좋아하는 요리', 'admin', '기래요', '2022-06-03 10:21:22');
+/*!40000 ALTER TABLE `lc_survey` ENABLE KEYS */;
 
 -- 테이블 test.lc_user 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lc_user` (
@@ -145,6 +233,40 @@ CREATE TABLE IF NOT EXISTS `spring_session_attributes` (
 -- 테이블 데이터 test.spring_session_attributes:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `spring_session_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spring_session_attributes` ENABLE KEYS */;
+
+-- 테이블 test.vue_reanswers 구조 내보내기
+CREATE TABLE IF NOT EXISTS `vue_reanswers` (
+  `s_idx` int(11) DEFAULT NULL,
+  `q_idx` int(11) DEFAULT NULL,
+  `r_idx` int(11) DEFAULT NULL,
+  `a` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.vue_reanswers:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `vue_reanswers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vue_reanswers` ENABLE KEYS */;
+
+-- 테이블 test.vue_response 구조 내보내기
+CREATE TABLE IF NOT EXISTS `vue_response` (
+  `sub_idx` int(11) DEFAULT NULL,
+  `q_idx` int(11) DEFAULT NULL,
+  `r_idx` int(11) DEFAULT NULL,
+  `t` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.vue_response:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `vue_response` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vue_response` ENABLE KEYS */;
+
+-- 테이블 test.vue_submission 구조 내보내기
+CREATE TABLE IF NOT EXISTS `vue_submission` (
+  `s_idx` int(11) DEFAULT NULL,
+  `sub_idx` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 테이블 데이터 test.vue_submission:~0 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `vue_submission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vue_submission` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

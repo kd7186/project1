@@ -10,7 +10,14 @@ public class Survey {
 	private String sWriter;
 	private String sDatetime;
 	private int rownum;
+	private int getNext;
 	
+	public int getGetNext() {
+		return getNext;
+	}
+	public void setGetNext(int getNext) {
+		this.getNext = getNext;
+	}
 	public String getsTitle() {
 		return sTitle;
 	}

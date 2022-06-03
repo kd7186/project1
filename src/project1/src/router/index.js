@@ -72,6 +72,11 @@ const routes = [
     name: 'SurveyDetail',
     component: SurveyDetail
   },
+  {
+    path: '/response',
+    name: 'Response',
+    component: Response
+  },
 ]
 const router = new VueRouter({
   mode: 'history',

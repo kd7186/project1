@@ -267,6 +267,32 @@ export default new Vuex.Store({
         })
     })
   },
+  SubmitAnswers({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:9000/api/survey-answers', state.Answers)
+        .then(Response => {
+          alert("응답 완료")
+          Route.push('/surveylist')
+        })
+        .catch(Error => {
+          console.log('SubmitAnswers_error')
+        })
+    })
+  },
+  getResults({ commit, state }, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:9000/api/survey-answers', { params: { sId: payload } })
+        .then(Response => {
+          console.log(Response.data)
+          commit('GET_SURVEYRESULTS', Response.data)
+          console.log(state.Response)
+          Route.push('/response')
+        })
+        .catch(Error => {
+          console.log('getResults_error')
+        })
+    })
+  },
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`

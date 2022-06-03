@@ -4,8 +4,8 @@
       <v-card-text>
         <div>NO. {{ SurveyDetail.sId }}</div>
         <span class="text-h4 text--primary"> {{ SurveyDetail.sTitle }} </span>
-        <span>: {{ SurveyDetail.sDescription }}</span>
         <p>{{ SurveyDetail.sDatetime }}</p>
+        <div> <span class="text-h6 text--primary"> {{ SurveyDetail.sDescription }}</span> </div>
         <br />
         <component
           v-for="(item, index) in SurveyDetail.questions"
