@@ -1,0 +1,7 @@
+18:43:48.095 INFO  --- [restartedMain] c.p.example.Project1Application : Starting Project1Application using Java 17.0.1 on DESKTOP-IAQU242 with PID 6444 (C:\Users\ruist\OneDrive\문서\GitHub\project1\bin\main started by ruist in C:\Users\ruist\OneDrive\문서\GitHub\project1) 
+18:43:48.100 DEBUG --- [restartedMain] c.p.example.Project1Application : Running with Spring Boot v2.6.7, Spring v5.3.19 
+18:43:48.101 INFO  --- [restartedMain] c.p.example.Project1Application : The following 1 profile is active: "local" 
+18:43:48.154 WARN  --- [restartedMain] o.s.b.c.c.ConfigDataEnvironment : Property 'spring.profiles[0]' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 10:5] 
+18:43:50.002 DEBUG --- [restartedMain] c.p.example.config.AuthTokenFilter : Filter 'authenticationJwtTokenFilter' configured for use 
+18:43:50.669 INFO  --- [restartedMain] c.p.example.Project1Application : Started Project1Application in 3.149 seconds (JVM running for 4.548) 
+18:48:45.642 ERROR --- [http-nio-9000-exec-1] c.p.e.config.AuthEntryPointJwt : Unauthorized error: Full authentication is required to access this resource 

@@ -12,7 +12,7 @@ import article from '../views/article.vue'
 import SurveyList from '../views/SurveyList.vue'
 import WriteSurvey from '../views/WriteSurvey.vue'
 import SurveyDetail from '../views/SurveyDetail.vue'
-
+import Response from '../views/Response.vue'
 
 Vue.use(VueRouter)
 
@@ -62,8 +62,7 @@ const routes = [
     name: 'WriteSurvey',
     component:WriteSurvey,
   },
-  {
-   path: '/article/:bId',
+  {path: '/article/:bId',
    name:'article',
    component:article
   },

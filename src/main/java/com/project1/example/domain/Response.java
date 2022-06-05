@@ -13,8 +13,8 @@ public class Response {
 	public int getrId() {
 		return rId;
 	}
-	public void setrId(int r_num) {
-		this.rId = r_num;
+	public void setrId(int rId) {
+		this.rId = rId;
 	}
 	public int getsubId() {
 		return subId;

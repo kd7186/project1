@@ -2,6 +2,7 @@ package com.project1.example.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +73,7 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
-	public void insertReAnswer(String a, int sId, int qId) {
+	public void insertReAnswer(@Param("a")String a, @Param("sId")int sId, @Param("qId")int qId) {
 		surveymapper.insertReAnswer(a, sId, qId);
 		
 	}
@@ -84,13 +85,13 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
-	public List<String> getResultAnswers(int sId, int qId) {
+	public List<String> getResultAnswers(@Param("sId")int sId, @Param("qId")int qId) {
 		// TODO Auto-generated method stub
 		return surveymapper.getResultAnswers(sId, qId);
 	}
 
 	@Override
-	public List<Integer> getResultAnswersCount(int sId, int qId) {
+	public List<Integer> getResultAnswersCount(@Param("sId")int sId, @Param("qId")int qId) {
 		// TODO Auto-generated method stub
 		return surveymapper.getResultAnswersCount(sId, qId);
 	}

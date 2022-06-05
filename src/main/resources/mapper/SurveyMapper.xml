@@ -86,7 +86,7 @@
 					t
 		) VALUES (
 				(select sub_idx FROM vue_submission ORDER BY 	 sub_idx DESC  LIMIT 1),
-				#{q_idx},
+				#{qId},
 				#{t}
 				)
 	</insert>
@@ -97,8 +97,8 @@
 					r_idx,
 					a
 		) VALUES (
-				#{s_idx},
-				#{q_idx},
+				#{sId},
+				#{qId},
 				(select r_idx FROM vue_response ORDER BY 	 r_idx DESC  LIMIT 1),
 				#{a}
 				)
@@ -112,14 +112,14 @@
 		SELECT a FROM vue_reanswers WHERE s_idx = #{sId} AND q_idx = #{qId}  GROUP BY a
 	</select>
 	<select id="getResultAnswersCount" parameterType="map" resultType="Integer">
-		SELECT COUNT(a) AS aCount FROM vue_reanswers WHERE s_num = #{sId} AND q_idx = #{qId}  GROUP BY a
+		SELECT COUNT(a) AS aCount FROM vue_reanswers WHERE s_idx = #{sId} AND q_idx = #{qId}  GROUP BY a
 	</select>
 	
-	<select id="getQ_num" parameterType="Integer" resultType="Integer">
+	<select id="getqId" parameterType="Integer" resultType="Integer">
 		SELECT q_idx FROM lc_question WHERE s_idx = #{sId}
 	</select>
 	
-	<select id="getSub_num" parameterType="Integer" resultType="Integer">
+	<select id="getSubid" parameterType="Integer" resultType="Integer">
 		SELECT sub_idx FROM vue_submission WHERE s_idx = #{sId}
 	</select>
 	
@@ -140,7 +140,7 @@
 	</delete>
 
 	<delete id="deleteSubmission" parameterType="Integer">
-		DELETE FROM vue_submission WHERE sId = #{sId}
+		DELETE FROM vue_submission WHERE s_idx = #{sId}
 	</delete>
 
 	<delete id="deleteResponse" parameterType="Integer">
