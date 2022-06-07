@@ -9,7 +9,14 @@ public class Response {
 	private String t;
 	private List<String> answers;
 	private int aCount;
+	private int getNext;
 	
+	public int getGetNext() {
+		return getNext;
+	}
+	public void setGetNext(int getNext) {
+		this.getNext = getNext;
+	}
 	public int getrId() {
 		return rId;
 	}
@@ -19,8 +26,8 @@ public class Response {
 	public int getsubId() {
 		return subId;
 	}
-	public void setsubId(int sub_num) {
-		this.subId = sub_num;
+	public void setsubId(int subId) {
+		this.subId = subId;
 	}
 	public int getqId() {
 		return qId;

@@ -26,7 +26,7 @@
       ></component>
     </div>
     <v-col cols="12" align="right">
-      <v-btn @click="save"> save </v-btn>
+      <v-btn @click="save"> 작성 </v-btn>
     </v-col>
   </div>
 </template>

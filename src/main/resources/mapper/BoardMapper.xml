@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project1.example.mapper.BoardMapper">
-	<select id="selectBoardList" parameterType = "Pagination" resultType="Board">
+	<select id="selectBoardList" resultType="Board">
 		      SELECT b_id as bId,
 					                 b_title as bTitle,
 					                 b_content as bContent,
@@ -12,10 +12,7 @@
 					                 b_group as bGroup,
 					                 b_depth as bDepth
 		      FROM            lc_board
-		      <if test="search.find != null and search.search != null">
-		      WHERE ${search.find} like concat("%", #{search.search}, "%")
-		      </if>
-			  ORDER BY bGroup DESC,bOrder ASC, bDepth ASC, bId DESC
+			  ORDER BY bId DESC
 	   </select>
 	  <select id="article" parameterType="int" resultType="Board">
 	  	  SELECT         	b_id as bId,

@@ -8,7 +8,7 @@ import com.project1.example.domain.Search;
 
 @Mapper
 public interface BoardMapper {
-	public List<Board> selectBoardList(Pagination pagination);
+	public List<Board> selectBoardList();
 	
 	public Board article(int bId);
 	

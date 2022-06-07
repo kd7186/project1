@@ -11,9 +11,10 @@ import com.project1.example.mapper.BoardMapper;
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired BoardMapper boardmapper;
+	
 	@Override
-	public List<Board> selectBoardList(Pagination pagination) {
-			return boardmapper.selectBoardList(pagination);
+	public List<Board> selectBoardList() {
+			return boardmapper.selectBoardList();
 	}
 	
 	@Override

@@ -80,14 +80,20 @@
 				)
 	</insert>
 	<insert id="insertResponse" parameterType="Response">
+	<selectKey keyProperty="getNext" resultType="int" order="BEFORE">
+	  	SELECT MAX(r_idx)+1 r_idx
+		FROM vue_response
+	</selectKey>
 		INSERT INTO vue_response(
 					sub_idx,
 					q_idx,
-					t
+					t,
+					r_idx
 		) VALUES (
 				(select sub_idx FROM vue_submission ORDER BY 	 sub_idx DESC  LIMIT 1),
 				#{qId},
-				#{t}
+				#{t},
+				#{getNext}
 				)
 	</insert>
 	<insert id="insertReAnswer" parameterType="map">
@@ -105,22 +111,26 @@
 	</insert>
 	
 	<select id="getResultQuestion" parameterType="Integer" resultType="Question">
-		SELECT q_idx, t, q  FROM lc_question WHERE s_idx = #{sId}
+		SELECT q_idx as qId, 
+			   t as t, 
+			   q as q  
+			   FROM lc_question 
+			   WHERE s_idx = #{sId}
 	</select>
 	
 	<select id="getResultAnswers" parameterType="map" resultType="String">
-		SELECT a FROM vue_reanswers WHERE s_idx = #{sId} AND q_idx = #{qId}  GROUP BY a
+		SELECT a as a FROM vue_reanswers WHERE s_idx = #{sId} AND q_idx = #{qId}  GROUP BY a
 	</select>
 	<select id="getResultAnswersCount" parameterType="map" resultType="Integer">
 		SELECT COUNT(a) AS aCount FROM vue_reanswers WHERE s_idx = #{sId} AND q_idx = #{qId}  GROUP BY a
 	</select>
 	
 	<select id="getqId" parameterType="Integer" resultType="Integer">
-		SELECT q_idx FROM lc_question WHERE s_idx = #{sId}
+		SELECT q_idx as qId FROM lc_question WHERE s_idx = #{sId}
 	</select>
 	
 	<select id="getSubid" parameterType="Integer" resultType="Integer">
-		SELECT sub_idx FROM vue_submission WHERE s_idx = #{sId}
+		SELECT sub_idx as subId FROM vue_submission WHERE s_idx = #{sId}
 	</select>
 	
 	<delete id="deleteSurvey" parameterType="Integer">
@@ -144,6 +154,6 @@
 	</delete>
 
 	<delete id="deleteResponse" parameterType="Integer">
-		DELETE FROM vue_response WHERE sub_num = #{s_}
+		DELETE FROM vue_response WHERE sub_idx = #{s_}
 	</delete>
 </mapper>

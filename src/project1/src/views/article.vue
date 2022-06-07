@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 <div class = "controller">
 	<div class ="row">
 		<div>
@@ -41,6 +41,21 @@
 		</div>
 	</div>
 </div>
+</template> -->
+<template>
+  <div style="width: 100%">
+    <v-card class="mx-auto" width="80%">
+      <v-card-text>
+        <div>NO. {{ article.sId }}</div>
+        <span class="text-h4 text--primary"> {{ article.bTitle }} </span>
+        <p>{{ article.bDatetime }}</p>
+		<p>{{ article.bBrdhit}} views </p>
+        <div> <span class="text-h6 text--primary"> {{ SurveyDetail.bContent }}</span> </div>
+        <br />
+      </v-card-text>
+    </v-card>
+    <br />
+  </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex"

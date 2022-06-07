@@ -62,7 +62,7 @@ const routes = [
     name: 'WriteSurvey',
     component:WriteSurvey,
   },
-  {path: '/article/:bId',
+  {path: '/article',
    name:'article',
    component:article
   },

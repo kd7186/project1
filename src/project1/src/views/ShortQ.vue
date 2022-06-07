@@ -23,7 +23,7 @@ export default {
   },
   created() {
     this.$store.state.Answers.questions.push({
-      q_num: this.qId,
+      qId: this.qId,
       t: "ShortQ",
       answers: [],
     });

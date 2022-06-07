@@ -9,7 +9,7 @@ export default new Vuex.Store({
   state: {
     Userinfo:{User_Id:null,User_Name:null,User_auth:[],User_token:null},
     boardlist:[],
-    board:[{bTitle:' ', bContent:' '}],
+    board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:''},
     UserList:[],
     article:[],
     SurveyList:[],
@@ -40,9 +40,7 @@ export default new Vuex.Store({
       state.boardlist = data
     },
     READ_ARTICLE(state,data) {
-      state.article.bId = data.bId
       state.article = data
-      console.log(state.article)
     },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
@@ -163,14 +161,13 @@ export default new Vuex.Store({
     })
   },
   article({commit},payload) {
-    //var obj= {bId: router.currentRoute.params.bId}
-    //payload = obj
     console.log(payload)
     return new Promise((resolve,reject) => {
-      axios.get('http://localhost:9000/api/article', payload)
+      axios.get('http://localhost:9000/api/article', {params: {bId: payload}})
         .then(Response => {
           console.log(Response.data)
             commit('READ_ARTICLE',Response.data)
+            Route.push('/article')
         })
         .catch(Error => {
           console.log('error')
@@ -292,6 +289,21 @@ export default new Vuex.Store({
           console.log('getResults_error')
         })
     })
+  },
+  deleteSurvey({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("token")}`
+      axios.delete('http://localhost:9000/api/survey', { params: { sId: payload } })
+        .then(Response => {
+          commit('GET_SURVEYLIST', Response.data)
+          Route.push('/surveylist')
+        })
+        .catch(Error => {
+          alert('권한 없음')
+          console.log('deleteSurvey_error')
+        })
+    })
+
   },
    UnpackToken({commit}) {
     return new Promise((resolve, reject) => {

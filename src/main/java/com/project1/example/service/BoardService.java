@@ -10,7 +10,7 @@ public interface BoardService {
 	static BoardService service= null;
 	static BoardMapper mapper = null;
 	
-	public List<Board> selectBoardList(Pagination pagination);
+	public List<Board> selectBoardList();
 	
 	public Board article(int bId);
 	

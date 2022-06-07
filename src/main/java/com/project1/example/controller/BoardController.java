@@ -4,6 +4,7 @@ package com.project1.example.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project1.example.domain.Board;
 import com.project1.example.domain.Pagination;
 import com.project1.example.domain.Search;
+import com.project1.example.domain.Survey;
 import com.project1.example.service.BoardService;
 import com.project1.example.service.CommentService;
 import com.project1.example.service.FileService;
@@ -57,7 +60,7 @@ public class BoardController {
 	@Autowired
 	CommentService commentservice;
 	
-	@GetMapping("/board")
+	/* @GetMapping("/board")
 	public ResponseEntity<?> home(Model model,Authentication authentication,Search search,@PathVariable(required = false) Optional<Integer> optPage) {
 		int page = optPage.isPresent() ? optPage.get() : 1;
 		
@@ -65,7 +68,7 @@ public class BoardController {
 		Pagination pagination = new Pagination();
 		/*search = new Search();
 		search.setFind(request.getParameter("find"));
-		search.setSearch(request.getParameter("search"));*/
+		search.setSearch(request.getParameter("search"));
 		count = boardservice.boardCount(search);
 		pagination.setPage(page);
 		pagination.setCount(count);
@@ -79,13 +82,20 @@ public class BoardController {
 	    logger.info("info");
 	    logger.error("error");
 		return new ResponseEntity<>(boardlist, HttpStatus.OK);
-	}
+	} */
 	
+	@GetMapping("/board")
+	public ResponseEntity<?> getBoardList(HttpServletRequest request) {
+
+		List<Board> list = boardservice.selectBoardList();
+		
+			return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	 
 	@GetMapping("/article")
-	public ResponseEntity<?> article(Board board, Model model) {
-		Board article = boardservice.article(board.getbId());
-		model.addAttribute("article", article);
-		boardservice.countView(board.getbId());
+	public ResponseEntity<?> article(@Validated int bId) {
+		Board article = boardservice.article(bId);
+		boardservice.countView(article.getbId());
 		return new ResponseEntity<>(article, HttpStatus.OK);
 	}
 	

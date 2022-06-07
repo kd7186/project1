@@ -1,41 +1,59 @@
 <template>
-    <div class="controller">
-	<table>
-	<tr style="background-color : #000000">
-	<td width="40px" style="color:white">#</td>
-	<td width="510px" style="color:white">제목</td>
-	<td width="120px" style="color:white">작성자</td>
-	<td width="120px" style="color:white">날짜</td>
-	<td width="50px" style="color:white">조회수</td>
-	</tr>
-			<tr v-for="(item, i) in boardlist" :key="i">
-			<td>{{item.bId}}</td>
-			<td>
-				<router-link :to="{name:'article', params:{ bId : item.bId }}">{{item.bTitle}}</router-link>
-			</td>
-			<td>{{item.bWriter}}</td>
-			<td>{{item.bDatetime}}</td>
-			<td>{{item.bBrdhit}}</td>
-			</tr>
-	</table>
-	<div style="text-align: center;">
-			<form name="sform" method="get" action="/1"  >
-    			<select name="find">
-        			<option value="b_writer">작성자</option>
-        			<option value="b_title">제목</option>
-       				<option value="b_content">내용</option>
-    			</select>
-    			<input name="search" type="text" class="form-control" size="20" placeholder="검색어를 입력하세요.">
-    			<input type="submit" value="찾기">
-			</form>
-            <router-link :to="{name:'write'}">글쓰기</router-link>
-	</div>
-</div>
+  <div style="width: 100%">
+    <v-card>
+      <v-card-title>
+        게시판 목록
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table
+        v-model="selected"
+        :single-select="singleSelect"
+        show-select
+        item-key="bId"
+        :headers="headers"
+        :items="boardlist"
+        :search="search"
+        @click:row="article"
+      ></v-data-table>
+    </v-card>
+	<v-col cols="12" align="right">
+      <v-btn depressed router :to="{ name: 'write' }"
+        >게시판 작성</v-btn
+      >
+    </v-col>
+  </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex"
 
 export default {
+	data() {
+    return {
+      singleSelect: false,
+      selected: [],
+      search: "",
+      headers: [
+        {
+          text: "#",
+          align: "start",
+          sortable: false,
+          value: "bId",
+        },
+        { text: "제목", value: "bTitle" },
+        { text: "작성자", value: "bWriter" },
+        { text: "날짜", value: "bDatetime" },
+		{text: "조회수", value: "bBrdhit"},
+        { text: "bId", value: "bId", align: " d-none" },
+      ],
+    };
+  },
 	created() {
 		this.$store.dispatch('board')
 	},
@@ -43,11 +61,11 @@ export default {
 		...mapState(["boardlist"])
 	},
 	methods: {
-    article: function (bId) {
-      this.$router.push({name: '/article', params: {bId: bId}})
-   		}	
-	},
-	props: ['bId']
+    ...mapActions(["article"]),
+    article(row) {
+      this.article(row.bId);
+    },
+	}
 }
 </script>
 <style scoped>

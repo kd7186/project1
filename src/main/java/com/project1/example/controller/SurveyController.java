@@ -160,4 +160,29 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 		
 	}
+	
+	@DeleteMapping("/survey")
+	public ResponseEntity<?> deleteSurvey(HttpServletRequest request, @Validated int sId ) {
+		String token = new String();
+		token = request.getHeader("Authorization");
+		
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		String username = jwtUtils.getUserEmailFromToken(token);
+		
+		Survey s = surveyService.getSurveyDetail(sId);
+		if(s.getsWriter().equals(username) || request.isUserInRole("ROLE_ADMIN")) {
+
+			surveyService.deleteSurvey(sId);
+			
+			List<Survey> list = surveyService.getsurveylist();
+			
+			return new ResponseEntity<>(list, HttpStatus.OK);
+			
+		}
+		
+		else return new ResponseEntity<>("fail", HttpStatus.FORBIDDEN);
+	
+	}
 }
