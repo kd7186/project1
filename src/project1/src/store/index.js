@@ -11,7 +11,7 @@ export default new Vuex.Store({
     boardlist:[],
     board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:''},
     UserList:[],
-    article:[],
+    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:''},
     SurveyList:[],
     Survey: { sTitle: '', sDescription:'', questions: []},
     SurveyDetail: { sId:'', sTitle:'', sDescription:'',sWriter:'', sDatetime:'', questions:[]},
@@ -147,7 +147,7 @@ export default new Vuex.Store({
           })
   })
   },
-  board({commit},payload) {
+  getBoardList({commit},payload) {
     return new Promise((resolve,reject) => {
       axios.get('http://localhost:9000/api/board', payload)
         .then(Response => {
@@ -160,10 +160,10 @@ export default new Vuex.Store({
         })
     })
   },
-  article({commit},payload) {
+  getArticle({commit},payload) {
     console.log(payload)
     return new Promise((resolve,reject) => {
-      axios.get('http://localhost:9000/api/article', {params: {bId: payload}})
+      axios.get('http://localhost:9000/api/article', {params: { bId: payload }})
         .then(Response => {
           console.log(Response.data)
             commit('READ_ARTICLE',Response.data)
@@ -175,43 +175,27 @@ export default new Vuex.Store({
         })
     })
   },
-  /*writeaction({commit},payload) {
-    console.log(payload)
-   // let formData= new FormData()
-    //formData.append('bTitle', payload.bTitle)
-    //formData.append('bContent', payload.bContent)
-    //formData.append('file', payload.fileinput)
-    //console.log(formData) 
-    return new Promise((resolve, reject) => {
-      axios.post('http://localhost:9000/api/writeaction',
-       payload 
-      )
-        .then(Response => {
-          console.log(Response.data)
-          alert('게시글이 등록되었습니다.')
-         .then(() => Route.push({name : 'board'}))
-        })
-        .catch(Error => {
-          console.log('error')
-          reject(Error)
-          alert('게시글 등록 실패')
-        })
-    })
-  },*/
-
   writeaction({commit},payload) {
-    console.log(payload)
-    let formData= new FormData()
+
+    const formData= new FormData()
     formData.append('bTitle', payload.bTitle)
     formData.append('bContent', payload.bContent)
-    //formData.append('file', payload.fileinput)
-    console.log(formData) 
+
+    if (payload.image.length > -1) {
+      for (let i = 0 ; i < payload.image.length; i++) {
+        const imageForm = payload.image[i]
+
+        formData.append('images[${i}]', imageForm)
+      }
+      formData.append('imageCount', payload.image.length)
+      }
+
     return new Promise((resolve, reject) => {
         axios({
           url: "http://localhost:9000/api/writeaction",
           method: "post",
           headers: {
-            "Content-Type": "multipart/formdata; boundary = " + new Date().getTime()
+            'Content-Type': 'multipart/formdata'
           },
           data: formData,
         }).then(Response => {

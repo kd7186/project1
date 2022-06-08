@@ -94,8 +94,18 @@ public class BoardController {
 	 
 	@GetMapping("/article")
 	public ResponseEntity<?> article(@Validated int bId) {
-		Board article = boardservice.article(bId);
-		boardservice.countView(article.getbId());
+		Board board = boardservice.article(bId);
+		boardservice.countView(board.getbId());
+		
+		Board article = new Board();
+		article.setbId(board.getbId());
+		article.setbTitle(board.getbTitle());
+		article.setbContent(board.getbContent());
+		article.setbWriter(board.getbWriter());
+		article.setbDatetime(board.getbDatetime());
+		article.setbBrdhit(board.getbBrdhit());
+		
+		
 		return new ResponseEntity<>(article, HttpStatus.OK);
 	}
 	

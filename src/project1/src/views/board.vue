@@ -49,21 +49,21 @@ export default {
         { text: "제목", value: "bTitle" },
         { text: "작성자", value: "bWriter" },
         { text: "날짜", value: "bDatetime" },
-		{text: "조회수", value: "bBrdhit"},
+		{ text: "조회수", value: "bBrdhit" },
         { text: "bId", value: "bId", align: " d-none" },
       ],
     };
   },
 	created() {
-		this.$store.dispatch('board')
+		this.$store.dispatch('getBoardList')
 	},
 	computed: {
 		...mapState(["boardlist"])
 	},
 	methods: {
-    ...mapActions(["article"]),
+    ...mapActions(["getArticle"]),
     article(row) {
-      this.article(row.bId);
+      this.getArticle(row.bId);
     },
 	}
 }
