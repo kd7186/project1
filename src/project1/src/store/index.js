@@ -142,7 +142,7 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             // console.log(Error)
-              console.log('admin_error')
+              console.log('admin_errorn')
               Route.push("/")
           })
   })
@@ -176,18 +176,15 @@ export default new Vuex.Store({
     })
   },
   writeaction({commit},payload) {
+    let formData= new FormData()
 
-    const formData= new FormData()
-    formData.append('bTitle', payload.bTitle)
-    formData.append('bContent', payload.bContent)
-
+    console.log(payload.image.length)
     if (payload.image.length > -1) {
       for (let i = 0 ; i < payload.image.length; i++) {
         const imageForm = payload.image[i]
 
-        formData.append('images[${i}]', imageForm)
+        formData.append(`file[${i}]`, imageForm);
       }
-      formData.append('imageCount', payload.image.length)
       }
 
     return new Promise((resolve, reject) => {
@@ -195,7 +192,11 @@ export default new Vuex.Store({
           url: "http://localhost:9000/api/writeaction",
           method: "post",
           headers: {
-            'Content-Type': 'multipart/formdata'
+             'Content-Type': 'multipart/form-data'
+          },
+          params: {
+            bTitle : payload.bTitle,
+            bContent : payload.bContent
           },
           data: formData,
         }).then(Response => {

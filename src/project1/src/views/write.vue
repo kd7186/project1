@@ -20,7 +20,7 @@
     </v-col>
     <br />
     <v-col cols="12" align="right">
-      <v-btn @click="save"> 작성 </v-btn>
+      <v-btn @click="writeaction(input)"> 작성 </v-btn>
     </v-col>
 	</v-card>
   </div>
@@ -33,7 +33,7 @@ export default {
 			input: {
 				bTitle:'',
 				bContent:'',
-				image:'' 
+				image:[]
 			}
 		}
 	},
@@ -43,14 +43,6 @@ export default {
 			this.input.image = this.$refs.boardImage.files
 			console.log("this.input.image")
 		},
-		save() {
-			this.$router.push({
-				name: 'writeaction',
-				params: {
-					input: this.input
-				}
-			})
-		}
 	}
 };
 </script>

@@ -1,5 +1,7 @@
 package com.project1.example.domain;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Board {
@@ -14,12 +16,13 @@ public class Board {
 	private int bGroup;
 	private int bOrder;
 	private int bDepth;
-	private MultipartFile file;
+	private List<MultipartFile> file;
 	
-	public MultipartFile getFile() {
+	
+	public List<MultipartFile> getFile() {
 		return file;
 	}
-	public void setFile(MultipartFile file) {
+	public void setFile(List<MultipartFile> file) {
 		this.file = file;
 	}
 	public int getRownum() {

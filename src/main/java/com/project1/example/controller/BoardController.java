@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -116,13 +118,15 @@ public class BoardController {
 	
 	@PostMapping("/writeaction")
 	public ResponseEntity<?> writeaction(Board board, Authentication authentication) {
-		MultipartFile multipartFile = board.getFile();
+		List<MultipartFile> multipartFile = board.getFile();
+		/* String filename = multipartFile.getOriginalFilename();
+		/*MultipartFile multipartFile = board.getFile();
 		User user = (User) authentication.getPrincipal();
-		board.setbWriter(user.getName());
+		board.setbWriter(user.getName());*/
 		//FileVO file = new FileVO();
 		/*
 		if(f == null) { */
-		boardservice.writeAction(board);
+		//boardservice.writeAction(board);
 		/* } else {
 		boardservice.writeAction(board);
 		String fileName = f.getOriginalFilename();
