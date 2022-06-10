@@ -1,11 +1,14 @@
 package com.project1.example.controller;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project1.example.domain.Board;
+import com.project1.example.domain.FileVO;
 import com.project1.example.domain.Pagination;
 import com.project1.example.domain.Search;
 import com.project1.example.domain.Survey;
@@ -117,34 +121,31 @@ public class BoardController {
 	} */
 	
 	@PostMapping("/writeaction")
-	public ResponseEntity<?> writeaction(Board board, Authentication authentication) {
-		List<MultipartFile> multipartFile = board.getFile();
-		/* String filename = multipartFile.getOriginalFilename();
-		/*MultipartFile multipartFile = board.getFile();
+	public ResponseEntity<?> writeaction(Board board, Authentication authentication, MultipartFile[] files) throws IllegalStateException, IOException {
 		User user = (User) authentication.getPrincipal();
-		board.setbWriter(user.getName());*/
-		//FileVO file = new FileVO();
-		/*
-		if(f == null) { */
-		//boardservice.writeAction(board);
-		/* } else {
-		boardservice.writeAction(board);
-		String fileName = f.getOriginalFilename();
-		String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
-		File destinationFile;
-		String destinationFileName;
-		String fileUrl = "C:/Users/l6-morning/Documents/work12/lcomputerstudy/src/main/resources/static/img/";
-		do {
-			destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
-			destinationFile = new File(fileUrl+ destinationFileName);
-		} while (destinationFile.exists());
-		destinationFile.getParentFile().mkdirs();
-		f.transferTo(destinationFile);
-		file.setFileName(destinationFileName);
-		file.setFileRealName(fileName);
-		file.setFileUrl(fileUrl);
-		fileservice.fileInsert(file);}*/
-		
+		board.setbWriter(user.getName());
+		FileVO file = new FileVO();
+		if(files == null) {
+			boardservice.writeAction(board);
+		} else {
+			boardservice.writeAction(board);
+			for(MultipartFile f : files) {
+				String fileName = f.getOriginalFilename();
+				String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+				File destinationFile;
+				String destinationFileName;
+				String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/main/resources/static/img/";
+				do {
+					destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+					destinationFile = new File(fileUrl+ destinationFileName);
+				} while (destinationFile.exists());
+				destinationFile.getParentFile().mkdirs();
+				f.transferTo(destinationFile);
+				file.setFileName(destinationFileName);
+				file.setFileRealName(fileName);
+				file.setFileUrl(fileUrl);
+				fileservice.fileInsert(file);}
+		}
 		return new ResponseEntity<>(board,HttpStatus.OK);
 		}
 }

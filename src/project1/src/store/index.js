@@ -9,9 +9,9 @@ export default new Vuex.Store({
   state: {
     Userinfo:{User_Id:null,User_Name:null,User_auth:[],User_token:null},
     boardlist:[],
-    board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:''},
+    board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:'',files:[]},
     UserList:[],
-    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:''},
+    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:'',files:[]},
     SurveyList:[],
     Survey: { sTitle: '', sDescription:'', questions: []},
     SurveyDetail: { sId:'', sTitle:'', sDescription:'',sWriter:'', sDatetime:'', questions:[]},
@@ -177,26 +177,23 @@ export default new Vuex.Store({
   },
   writeaction({commit},payload) {
     let formData= new FormData()
-
+    formData.append('bTitle', payload.bTitle)
+    formData.append('bContent', payload.bContent)
     console.log(payload.image.length)
     if (payload.image.length > -1) {
       for (let i = 0 ; i < payload.image.length; i++) {
         const imageForm = payload.image[i]
 
-        formData.append(`file[${i}]`, imageForm);
+        formData.append(`files[${i}]`, imageForm);
       }
       }
-
+    console.log(formData)
     return new Promise((resolve, reject) => {
         axios({
           url: "http://localhost:9000/api/writeaction",
           method: "post",
           headers: {
-             'Content-Type': 'multipart/form-data'
-          },
-          params: {
-            bTitle : payload.bTitle,
-            bContent : payload.bContent
+            'Content-Type': 'multipart/form-data;boundary=$boundary' 
           },
           data: formData,
         }).then(Response => {

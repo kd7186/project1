@@ -16,15 +16,8 @@ public class Board {
 	private int bGroup;
 	private int bOrder;
 	private int bDepth;
-	private List<MultipartFile> file;
-	
-	
-	public List<MultipartFile> getFile() {
-		return file;
-	}
-	public void setFile(List<MultipartFile> file) {
-		this.file = file;
-	}
+	private MultipartFile[] files;
+
 	public int getRownum() {
 		return rownum;
 	}

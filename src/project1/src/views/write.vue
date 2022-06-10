@@ -33,7 +33,7 @@ export default {
 			input: {
 				bTitle:'',
 				bContent:'',
-				image:[]
+				image:null
 			}
 		}
 	},

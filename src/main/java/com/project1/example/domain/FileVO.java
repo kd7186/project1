@@ -1,11 +1,8 @@
 package com.project1.example.domain;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class FileVO {
 	private int fId;
 	private int bId;
-	private MultipartFile multipartFile;
 	private String image;
 	private String fileName;
 	private String fileRealName;
@@ -47,12 +44,6 @@ public class FileVO {
 	}
 	public void setFileUrl(String fildUrl) {
 		this.fileUrl = fildUrl;
-	}
-	public MultipartFile getMultipartFile() {
-		return multipartFile;
-	}
-	public void setMultipartFile(MultipartFile multipartFile) {
-		this.multipartFile = multipartFile;
 	}
 	public String getImage() {
 		return image;
