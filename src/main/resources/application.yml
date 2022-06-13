@@ -13,13 +13,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    
-  servlet:
-    multipart:
-      max-file-size: 1000MB
-      max-request-size: 1000MB        
-      enabled: true     
+    driver-class-name: com.mysql.cj.jdbc.Driver 
 
   devtools:
     livereload:
@@ -31,15 +25,7 @@ server:
   port: 9000
   tomcat:
     uri-encoding: UTF-8
-    
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-       
-    session: 
-      timeout: 7200
+
   error:
       whitelabel:
         enabled: false

@@ -22,7 +22,7 @@
    </insert>
    <select id="selectFileList" parameterType= "FileVO" resultType="com.project1.example.domain.FileVO">
     SELECT
-        *
+     *
     FROM lc_file
     WHERE b_id = #{bId}
    </select>

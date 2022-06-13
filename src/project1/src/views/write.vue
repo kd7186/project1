@@ -6,7 +6,7 @@
 	</v-card-title>
     <v-col class="mx-auto" cols="12" sm="6">
       <v-text-field
-        v-model="input.bTitle"
+        v-model="bTitle"
         label="제목"
         auto-grow
         outlined
@@ -15,12 +15,12 @@
         shaped
       >
       </v-text-field>
-      <v-textarea v-model="input.bContent" label="내용"></v-textarea>
-	  <input multiple @change='onInputImage()' ref="boardImage" type="file">
+      <v-textarea v-model="bContent" label="내용"></v-textarea>
+	  <v-file-input v-model="file" class="input" type="file" name="fileList" label="여러개 선택가능" multiple></v-file-input>
     </v-col>
     <br />
     <v-col cols="12" align="right">
-      <v-btn @click="writeaction(input)"> 작성 </v-btn>
+      <v-btn @click="writeaction({file,bTitle,bContent})"> 작성 </v-btn>
     </v-col>
 	</v-card>
   </div>
@@ -30,19 +30,13 @@ import { mapActions } from "vuex"
 export default {
 	data () {
 		return {
-			input: {
-				bTitle:'',
-				bContent:'',
-				image:null
-			}
+			bTitle:'',
+			bContent:'',
+			file:null
 		}
 	},
 	methods: {
 		...mapActions(["writeaction"]),
-		onInputImage() {
-			this.input.image = this.$refs.boardImage.files
-			console.log("this.input.image")
-		},
 	}
 };
 </script>

@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,30 +69,6 @@ public class BoardController {
 	@Autowired
 	CommentService commentservice;
 	
-	/* @GetMapping("/board")
-	public ResponseEntity<?> home(Model model,Authentication authentication,Search search,@PathVariable(required = false) Optional<Integer> optPage) {
-		int page = optPage.isPresent() ? optPage.get() : 1;
-		
-		int count = 0;
-		Pagination pagination = new Pagination();
-		/*search = new Search();
-		search.setFind(request.getParameter("find"));
-		search.setSearch(request.getParameter("search"));
-		count = boardservice.boardCount(search);
-		pagination.setPage(page);
-		pagination.setCount(count);
-		pagination.setSearch(search);
-		pagination.init();
-		List<Board> boardlist = boardservice.selectBoardList(pagination);
-		model.addAttribute("list", boardlist);
-		model.addAttribute("pageNum",pagination.getPageNum());
-		model.addAttribute("pagination",pagination);
-		logger.debug("debug");
-	    logger.info("info");
-	    logger.error("error");
-		return new ResponseEntity<>(boardlist, HttpStatus.OK);
-	} */
-	
 	@GetMapping("/board")
 	public ResponseEntity<?> getBoardList(HttpServletRequest request) {
 
@@ -99,8 +78,9 @@ public class BoardController {
 	}
 	 
 	@GetMapping("/article")
-	public ResponseEntity<?> article(@Validated int bId) {
+	public ResponseEntity<?> article(@Validated int bId,FileVO file) {
 		Board board = boardservice.article(bId);
+		List<FileVO> filelist = fileservice.selectFileList(file);
 		boardservice.countView(board.getbId());
 		
 		Board article = new Board();
@@ -110,8 +90,6 @@ public class BoardController {
 		article.setbWriter(board.getbWriter());
 		article.setbDatetime(board.getbDatetime());
 		article.setbBrdhit(board.getbBrdhit());
-		
-		
 		return new ResponseEntity<>(article, HttpStatus.OK);
 	}
 	
@@ -121,32 +99,40 @@ public class BoardController {
 	} */
 	
 	@PostMapping("/writeaction")
-	public ResponseEntity<?> writeaction(Board board, Authentication authentication, MultipartFile[] files) throws IllegalStateException, IOException {
-		User user = (User) authentication.getPrincipal();
-		board.setbWriter(user.getName());
-		FileVO file = new FileVO();
-		if(files == null) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> writeaction(HttpServletRequest request, Board board, MultipartFile[] file) throws Exception{
+		String token = new String();
+		token = request.getHeader("Authorization");
+		
+		if(StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+			token = token.substring(7, token.length());
+		}
+		String username = jwtUtils.getUserEmailFromToken(token);
+		board.setbWriter(username);
+		FileVO filevo = new FileVO();
+		if(file == null) {
 			boardservice.writeAction(board);
 		} else {
 			boardservice.writeAction(board);
-			for(MultipartFile f : files) {
+			for(MultipartFile f:file) {
 				String fileName = f.getOriginalFilename();
 				String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 				File destinationFile;
 				String destinationFileName;
-				String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/main/resources/static/img/";
+				String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/project1/public/img";
 				do {
 					destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
 					destinationFile = new File(fileUrl+ destinationFileName);
 				} while (destinationFile.exists());
 				destinationFile.getParentFile().mkdirs();
 				f.transferTo(destinationFile);
-				file.setFileName(destinationFileName);
-				file.setFileRealName(fileName);
-				file.setFileUrl(fileUrl);
-				fileservice.fileInsert(file);}
-		}
-		return new ResponseEntity<>(board,HttpStatus.OK);
-		}
+				filevo.setFileName(destinationFileName);
+				filevo.setFileRealName(fileName);
+				filevo.setFileUrl(fileUrl);
+				fileservice.fileInsert(filevo);}}
+	
+		List<Board> list = boardservice.selectBoardList();
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
 }
 

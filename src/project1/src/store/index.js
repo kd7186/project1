@@ -9,14 +9,15 @@ export default new Vuex.Store({
   state: {
     Userinfo:{User_Id:null,User_Name:null,User_auth:[],User_token:null},
     boardlist:[],
-    board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:'',files:[]},
+    board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:'',file:[]},
     UserList:[],
-    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:'',files:[]},
+    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:'',file:[]},
     SurveyList:[],
+    filelist:[],
     Survey: { sTitle: '', sDescription:'', questions: []},
     SurveyDetail: { sId:'', sTitle:'', sDescription:'',sWriter:'', sDatetime:'', questions:[]},
     Answers: {sId:'', questions:[]},
-    Response: {sId:'', questions:[]}
+    Response: {sId:'', questions:[]},
   },
   mutations: {
     NewUsers: (state,payload) => {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     READ_ARTICLE(state,data) {
       state.article = data
+    },
+    READ_FILE_LIST(state,data) {
+      state.filelist = data
     },
   INSERT_TOKEN(state) {
     state.Userinfo.User_token = localStorage.getItem("token")
@@ -167,6 +171,7 @@ export default new Vuex.Store({
         .then(Response => {
           console.log(Response.data)
             commit('READ_ARTICLE',Response.data)
+            commit('READ_FILE_LIST',Response.data)
             Route.push('/article')
         })
         .catch(Error => {
@@ -176,7 +181,30 @@ export default new Vuex.Store({
     })
   },
   writeaction({commit},payload) {
-    let formData= new FormData()
+    console.log(payload)
+    const formData = new FormData()
+    formData.append('bTitle', payload.bTitle)
+    formData.append('bContent', payload.bContent)
+    payload.file.forEach((file) => formData.append("file", file))
+    const reader = new FileReader();
+    return new Promise((resolve,reject) => {
+      axios.post('http://localhost:9000/api/writeaction',formData, {
+        headers: {
+          'Content-Type':'multipart/form-data'
+        }
+      }).then(Response => {
+        console.log(Response.data)
+        alert('게시글이 등록되었습니다.')
+        commit('READ_BOARD_LIST',Response.data)
+        Route.push('/board')
+      })
+      .catch(Error => {
+        console.log('error')
+        reject(Error)
+      })
+    })
+  },
+    /*let formData= new FormData()
     formData.append('bTitle', payload.bTitle)
     formData.append('bContent', payload.bContent)
     console.log(payload.image.length)
@@ -206,8 +234,7 @@ export default new Vuex.Store({
           reject(Error)
           alert('게시글 등록 실패')
         })
-    })
-  },
+    })*/
   getSurveyList({ commit },payload) {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:9000/api/surveylist',payload)
