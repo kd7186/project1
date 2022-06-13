@@ -11,7 +11,7 @@ export default new Vuex.Store({
     boardlist:[],
     board:{bTitle:' ', bContent:' ', bBrdhit:'', bDatetime:'',bWriter:'',file:[]},
     UserList:[],
-    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:'',file:[]},
+    article:{bId:'',bTitle:'', bContent:'', bBrdhit:'', bDatetime:'',bWriter:'',f:[]},
     SurveyList:[],
     filelist:[],
     Survey: { sTitle: '', sDescription:'', questions: []},
@@ -171,7 +171,6 @@ export default new Vuex.Store({
         .then(Response => {
           console.log(Response.data)
             commit('READ_ARTICLE',Response.data)
-            commit('READ_FILE_LIST',Response.data)
             Route.push('/article')
         })
         .catch(Error => {

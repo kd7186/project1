@@ -21,8 +21,11 @@
       )
    </insert>
    <select id="selectFileList" parameterType= "FileVO" resultType="com.project1.example.domain.FileVO">
-    SELECT
-     *
+    SELECT f_id as fId,
+    b_id as bId,
+    fileName as fileName,
+    fileRealName as fileRealName,
+    fileUrl as fileUrl
     FROM lc_file
     WHERE b_id = #{bId}
    </select>

@@ -78,9 +78,9 @@ public class BoardController {
 	}
 	 
 	@GetMapping("/article")
-	public ResponseEntity<?> article(@Validated int bId,FileVO file) {
+	public ResponseEntity<?> article(@Validated int bId,FileVO filevo) {
 		Board board = boardservice.article(bId);
-		List<FileVO> filelist = fileservice.selectFileList(file);
+		List<FileVO> file = fileservice.selectFileList(filevo);
 		boardservice.countView(board.getbId());
 		
 		Board article = new Board();
@@ -90,6 +90,7 @@ public class BoardController {
 		article.setbWriter(board.getbWriter());
 		article.setbDatetime(board.getbDatetime());
 		article.setbBrdhit(board.getbBrdhit());
+		article.setFiles(file);
 		return new ResponseEntity<>(article, HttpStatus.OK);
 	}
 	
@@ -119,7 +120,8 @@ public class BoardController {
 				String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 				File destinationFile;
 				String destinationFileName;
-				String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/project1/public/img";
+				/* String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/project1/public/img"; */
+				String fileUrl = "C:/Users/ruist/OneDrive/¹®¼­/GitHub/project1/src/project1/public/img";
 				do {
 					destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
 					destinationFile = new File(fileUrl+ destinationFileName);

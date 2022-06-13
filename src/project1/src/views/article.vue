@@ -7,12 +7,10 @@
         <span class="text-h4 text--primary"> {{ article.bTitle }} </span>
         <p>{{ article.bDatetime }}</p>
 		<p>{{ article.bBrdhit}} views </p>
+        <div v-for="file in article.files" :key="article.bId">
+        <img :src="file.fileUrl + file.fileName"/>
+        </div>
         <div>
-          <ul>
-          <li v-for="item in filelist">
-            <img :src="item.fileUrl">
-          </li>
-          </ul>
           <span class="text-h6 text--primary"> {{ article.bContent }}</span> </div>
         <br />
       </v-card-text>
@@ -31,8 +29,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(["article"]),
-    ...mapState(["filelist"])
+		...mapState(["article"])
 	}
 }
 </script>

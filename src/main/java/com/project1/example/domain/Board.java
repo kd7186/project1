@@ -18,7 +18,14 @@ public class Board {
 	private int bDepth;
 	MultipartFile file;
 	private String fileName;
+	private List<FileVO> files;
 	
+	public List<FileVO> getFiles() {
+		return files;
+	}
+	public void setFiles(List<FileVO> files) {
+		this.files = files;
+	}
 	public String getFileName() {
 		return fileName;
 	}
