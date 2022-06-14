@@ -120,8 +120,7 @@ public class BoardController {
 				String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 				File destinationFile;
 				String destinationFileName;
-				/* String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/project1/public/img"; */
-				String fileUrl = "C:/Users/ruist/OneDrive/¹®¼­/GitHub/project1/src/project1/public/img";
+				String fileUrl = "C:/Users/l6-morning/Documents/work12/project1/src/project1/public/";
 				do {
 					destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
 					destinationFile = new File(fileUrl+ destinationFileName);

@@ -8,7 +8,7 @@
         <p>{{ article.bDatetime }}</p>
 		<p>{{ article.bBrdhit}} views </p>
         <div v-for="file in article.files" :key="article.bId">
-        <img :src="file.fileUrl + file.fileName"/>
+        <img :src="`/` + file.fileName"/>
         </div>
         <div>
           <span class="text-h6 text--primary"> {{ article.bContent }}</span> </div>
